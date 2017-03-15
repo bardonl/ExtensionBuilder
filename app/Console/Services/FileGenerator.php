@@ -23,12 +23,12 @@ class FileGenerator
             //The first letter is changed to uppercase
             $extensionName = ucfirst(explode('_', $extensionKey)[0]);
             //This will call the function to create the root directory of the extension
-            self::getFileSystem()->makeDirectory(realpath('../../') . $extensionName);
+            self::getFileSystem()->makeDirectory(realpath('../../') . '/' . $extensionName);
         }
 
         if ($type == 1) {
             //This will call the function to create the root directory of the extension
-            self::getFileSystem()->makeDirectory(realpath('../../') . $extensionKey);
+            self::getFileSystem()->makeDirectory(realpath('../../') . '/' . $extensionKey);
         }
     }
 
