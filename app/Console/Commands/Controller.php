@@ -1,10 +1,14 @@
 <?php
-
 namespace ExtensionBuilder\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem;
 
+/**
+ * extension
+ *
+ * @package ExtensionBuilder\Console\Commands
+ */
 class Controller extends Command
 {
     /**
@@ -19,15 +23,7 @@ class Controller extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
-
-    /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $description = 'Command to build the controller(s)';
 
     /**
      * Execute the console command.

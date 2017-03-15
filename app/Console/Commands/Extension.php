@@ -1,16 +1,14 @@
 <?php
-
 namespace ExtensionBuilder\Console\Commands;
 
 use ExtensionBuilder\Console\Services\FileGenerator;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem;
 
-
 /**
  * extension
  *
- * @package extension_builder\Console\Commands
+ * @package ExtensionBuilder\Console\Commands
  */
 class Extension extends Command
 {
@@ -29,29 +27,8 @@ class Extension extends Command
     protected $description = 'The user has the option to choose between a configuration template or an extension';
 
     /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function failureMessage(){
-
-        echo "Failed to create your extension!";
-        echo "\r\n";
-        echo "Please Rerun the command!";
-
-        sleep(2);
-
-        exit();
-
-    }
-
-    /**
      * Execute the console command.
      *
-     * @return mixed
      */
     public function handle()
     {

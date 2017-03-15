@@ -1,9 +1,13 @@
 <?php
-
 namespace ExtensionBuilder\Console\Commands;
 
 use Illuminate\Console\Command;
 
+/**
+ * extension
+ *
+ * @package ExtensionBuilder\Console\Commands
+ */
 class Model extends Command
 {
     /**
@@ -19,14 +23,6 @@ class Model extends Command
      * @var string
      */
     protected $description = 'The model is where the getters and setters are placed so the values can be used in the template.';
-
-    /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Execute the console command.

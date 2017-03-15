@@ -1,5 +1,4 @@
 <?php
-
 namespace ExtensionBuilder\Console;
 
 use Illuminate\Console\Scheduling\Schedule;

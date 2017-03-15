@@ -1,9 +1,12 @@
 <?php
-
 namespace ExtensionBuilder\Console\Services;
 
 use Illuminate\Filesystem\Filesystem;
 
+/**
+ * Class FileGenerator
+ * @package ExtensionBuilder\Console\Services
+ */
 class FileGenerator
 {
     /**
