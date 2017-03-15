@@ -1,6 +1,6 @@
 <?php
 
-namespace extension_builder\Http\Controllers;
+namespace ExtensionBuilder\Console\Services;
 
 use Illuminate\Filesystem\Filesystem;
 

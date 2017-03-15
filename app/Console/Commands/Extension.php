@@ -1,8 +1,8 @@
 <?php
 
-namespace extension_builder\Console\Commands;
+namespace ExtensionBuilder\Console\Commands;
 
-use extension_builder\Http\Controllers\FileGenerator;
+use ExtensionBuilder\Console\Services\FileGenerator;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem;
 
