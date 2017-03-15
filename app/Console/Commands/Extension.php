@@ -7,6 +7,11 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem;
 
 
+/**
+ * extension
+ *
+ * @package extension_builder\Console\Commands
+ */
 class Extension extends Command
 {
     /**
@@ -25,8 +30,6 @@ class Extension extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -38,7 +41,9 @@ class Extension extends Command
         echo "Failed to create your extension!";
         echo "\r\n";
         echo "Please Rerun the command!";
+
         sleep(2);
+
         exit();
 
     }
@@ -50,40 +55,48 @@ class Extension extends Command
      */
     public function handle()
     {
-        $extensionKey = $this->argument('extensionKey');
-        $extensionKey = strtolower($extensionKey);
-       
-        if(!strpos($extensionKey, '_')){
+        $extensionKey = strtolower($this->argument('extensionKey'));
+
+        if (!strpos($extensionKey, '_')) {
             echo "Your extension key does not contain an underscore";
 
             echo "Please run the command like:";
             echo "\r\n";
             echo "php artisan build:extension example_extension";
+
             sleep(2);
             exit();
         }
-        if(!$this->confirm('You named the extension: '.$extensionKey.' Is that correct?')){
+
+        if (!$this->confirm('You named the extension: ' . $extensionKey . ' Is that correct?')) {
+
             echo "You can rerun the command by using";
             echo "\r\n";
             echo "php artisan build:extension example_extension";
+
             sleep(2);
+
             exit();
         }
+
         $config = $this->choice('Building a configuration template? [0/1]', ['Build a configuration template', 'Build a extension']);
 
+        // @todo switch van maken
+        if ($config === 0) {
 
-        if($config == 0){
             echo "Building a configuration template";
-            echo FileGenerator::createRootDirectory($config, $extensionKey);
-        }elseif($config == 1){
+            FileGenerator::createRootDirectory($config, $extensionKey);
+        } elseif ($config === 1) {
+
             echo "Building a normal extension";
             FileGenerator::createRootDirectory($config, $extensionKey);
-        }else{
+        } else {
+
             echo "Please select a valid value";
         }
+
         sleep(2);
 
     }
-
 
 }

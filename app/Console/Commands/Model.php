@@ -11,7 +11,7 @@ class Model extends Command
      *
      * @var string
      */
-    protected $signature = 'build:model';
+    protected $signature = 'build:model {model*}';
 
     /**
      * The console command description.
@@ -22,8 +22,6 @@ class Model extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
