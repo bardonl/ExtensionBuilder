@@ -12,7 +12,7 @@ class Controller extends Command
      *
      * @var string
      */
-    protected $signature = 'build:controller';
+    protected $signature = 'build:controller {controller*}';
 
     /**
      * The console command description.
@@ -38,7 +38,6 @@ class Controller extends Command
      */
     public function handle()
     {
-        echo "This is the build:controller command";
-        sleep(4);
+        
     }
 }
