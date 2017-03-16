@@ -36,13 +36,9 @@ class Extension extends Command
 
         if (!$this->confirm('You named the extension: ' . $extensionKey . ' Is that correct?')) {
 
-            $this->info("You can rerun the command by using");
-            echo "\r\n";
-            $this->info("php artisan build:extension example_extension");
+            $extensionKey = $this->ask('Type new name:');
+            $this->call('build:extension', $extensionKey);
 
-            sleep(2);
-
-            exit();
         }
 
         $config = $this->choice('Building a configuration template? [0/1]', ['Build a configuration template', 'Build a extension']);
