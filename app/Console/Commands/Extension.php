@@ -36,7 +36,7 @@ class Extension extends Command
 
         if (!$this->confirm('You named the extension: ' . $extensionKey . ' Is that correct?')) {
 
-            $extensionKey = $this->ask('Type new name:');
+            $extensionKey = $this->ask('Type new extension key:');
             $this->call('build:extension', $extensionKey);
 
         }
