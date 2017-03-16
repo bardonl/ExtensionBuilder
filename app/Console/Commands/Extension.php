@@ -34,17 +34,6 @@ class Extension extends Command
     {
         $extensionKey = strtolower($this->argument('extensionKey'));
 
-        if (!strpos($extensionKey, '_')) {
-            $this->info("Your extension key does not contain an underscore");
-            
-            $this->info("Please run the command like:");
-            echo "\r\n";
-            $this->info("php artisan build:extension example_extension");
-
-            sleep(2);
-            exit();
-        }
-
         if (!$this->confirm('You named the extension: ' . $extensionKey . ' Is that correct?')) {
 
             $this->info("You can rerun the command by using");
