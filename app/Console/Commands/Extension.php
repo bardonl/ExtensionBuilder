@@ -34,42 +34,26 @@ class Extension extends Command
     {
         $extensionKey = strtolower($this->argument('extensionKey'));
 
-        if (!strpos($extensionKey, '_')) {
-            echo "Your extension key does not contain an underscore";
-
-            echo "Please run the command like:";
-            echo "\r\n";
-            echo "php artisan build:extension example_extension";
-
-            sleep(2);
-            exit();
-        }
-
         if (!$this->confirm('You named the extension: ' . $extensionKey . ' Is that correct?')) {
 
-            echo "You can rerun the command by using";
-            echo "\r\n";
-            echo "php artisan build:extension example_extension";
+            $extensionKey = $this->ask('Type new extension key:');
+            $this->call('build:extension', $extensionKey);
 
-            sleep(2);
-
-            exit();
         }
 
         $config = $this->choice('Building a configuration template? [0/1]', ['Build a configuration template', 'Build a extension']);
-
-        // @todo switch van maken
-        if ($config === 0) {
-
-            echo "Building a configuration template";
-            FileGenerator::createRootDirectory($config, $extensionKey);
-        } elseif ($config === 1) {
-
-            echo "Building a normal extension";
-            FileGenerator::createRootDirectory($config, $extensionKey);
-        } else {
-
-            echo "Please select a valid value";
+        
+        switch($config){
+            case 0:
+                $this->info("Building a configuration template");
+                FileGenerator::createRootDirectory($config, $extensionKey);
+                break;
+            case 1:
+                $this->info("Building a normal extension");
+                FileGenerator::createRootDirectory($config, $extensionKey);
+                break;
+            default:
+                $this->warn("Please select a valid value");
         }
 
         sleep(2);
