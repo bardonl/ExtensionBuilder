@@ -39,7 +39,7 @@ class BuildControllerFactory
         $this->extensionKey = $extensionKey;
 
         foreach ($controllers as $controller) {
-            // make a copy of the controller template and replace the values with the new controller name and namespace
+            // todo make handler to copy controller template and replace the values with the new controller name and namespace
             $this->getFileReplaceUtility()->findAndReplace(
                 'Target path',
                 [
@@ -50,6 +50,9 @@ class BuildControllerFactory
         }
     }
 
+    /**
+     * @param $controller
+     */
     protected function buildTemplateFolder($controller)
     {
         $this->getFileSystem()->makeDirectory($this->extensionKey . '/Resources/Private/Template/' . $controller);

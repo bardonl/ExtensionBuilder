@@ -1,10 +1,13 @@
 <?php
-
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Console\Factory\BuildControllerFactory;
 
+/**
+ * Class Controller
+ * @package App\Console\Commands
+ */
 class Controller extends Command
 {
     /**
@@ -12,14 +15,14 @@ class Controller extends Command
      *
      * @var string
      */
-    protected $signature = 'build:controller {controller*}';
+    protected $signature = 'build:controller {controller} {extensionKey=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Command to build one or more controllers';
 
     /**
      * The controller factory
@@ -43,16 +46,25 @@ class Controller extends Command
      */
     public function handle()
     {
-        $controller = $this->argument('controller');
 
-        $extension = $this->ask('Which extension needs the new controller(s)');
-        $question =  $this->confirm('Are you sure?' . $extension);
+        $controller = explode(',',$this->argument('controller'));
+        $extensionKey = $this->argument('extensionKey');
 
-        if ($question) {
-            $this->getBuildControllerFactory()->handle($extension, $controller);
-        } else {
-            echo 'sterf een langzame dood';
+        switch ($extensionKey) {
+            
+            case !NULL:
+
+                $this->getBuildControllerFactory()->handle($extensionKey, $controller);
+                break;
+
+            default:
+
+                $extensionKey = $this->ask('Which extension needs the new controller(s)');
+                $this->getBuildControllerFactory()->handle($extensionKey, $controller);
+                break;
+
         }
+
     }
 
     /**
@@ -61,7 +73,9 @@ class Controller extends Command
     protected function getBuildControllerFactory()
     {
         if (($this->controllerFactory instanceof BuildControllerFactory) === false) {
+
             $this->controllerFactory = new BuildControllerFactory();
+
         }
 
         return $this->controllerFactory;

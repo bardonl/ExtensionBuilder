@@ -1,10 +1,13 @@
 <?php
-
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Console\Services\FileGeneratorService;
 
+/**
+ * Class Extension
+ * @package App\Console\Commands
+ */
 class Extension extends Command
 {
     /**
@@ -19,7 +22,7 @@ class Extension extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'The main command to run the extension builder';
 
     /**
      * The file generator
@@ -53,10 +56,19 @@ class Extension extends Command
         }
 
         $config = $this->choice(
+            
             'Building a configuration template? [0/1]',
             ['Build a configuration template', 'Build a extension']
+            
         );
-
+        
+        if ($this->confirm("Do you need a controller?")) {
+            
+            $controller = $this->ask('Type the name(s) of the controller(s), if you want to use more than one controller seperate them using ,');
+            $this->callSilent('build:controller', ['controller' => $controller, 'extensionKey' => true]);
+            
+        }
+        
         $this->getFileGeneratorService()->createRootDirectory($config, $extensionKey);
     }
 
@@ -66,7 +78,9 @@ class Extension extends Command
     protected function getFileGeneratorService()
     {
         if (($this->fileGenerator instanceof FileGeneratorService) === false) {
+            
             $this->fileGenerator = new FileGeneratorService();
+            
         }
 
         return $this->fileGenerator;

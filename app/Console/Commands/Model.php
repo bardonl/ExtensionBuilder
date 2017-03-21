@@ -1,9 +1,12 @@
 <?php
-
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+/**
+ * Class Model
+ * @package App\Console\Commands
+ */
 class Model extends Command
 {
     /**
@@ -35,7 +38,9 @@ class Model extends Command
      */
     public function handle()
     {
+
         echo "This is the build:model command";
         sleep(4);
+        
     }
 }
