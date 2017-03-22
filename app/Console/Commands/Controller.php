@@ -22,7 +22,7 @@ class Controller extends Command
      *
      * @var string
      */
-    protected $description = 'Command to build a controller, if more is needed separate them with a comma without a space "FooController,BarController"';
+    protected $description = 'Command to build a controller, if more is needed separate them with a comma without a space "FooController,BarController" ';
 
     /**
      * The controller factory
