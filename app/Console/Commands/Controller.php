@@ -42,23 +42,22 @@ class Controller extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
      */
     public function handle()
     {
+        $controller = explode(', ',$this->argument('controller'));
 
-        $controller = explode(',',$this->argument('controller'));
         $extensionKey = $this->argument('extensionKey');
 
-        if ($extensionKey != NULL) {
+        if ($extensionKey[0] != NULL) {
 
-            $this->getBuildControllerFactory()->handle($extensionKey, $controller);
+            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, $new_ext = true));
 
         } else {
 
-            $extensionKey = $this->ask('Which extension needs the new controller(s)');
-            $this->getBuildControllerFactory()->handle($extensionKey, $controller);
-            
+            $extensionKey = $this->ask('Which extension needs the new controller(s)?');
+            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, $new_ext = false));
+
         }
 
     }
