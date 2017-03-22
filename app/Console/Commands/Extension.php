@@ -10,6 +10,7 @@ use App\Console\Services\FileGeneratorService;
  */
 class Extension extends Command
 {
+    
     /**
      * The name and signature of the console command.
      *
@@ -64,12 +65,13 @@ class Extension extends Command
         
         if ($this->confirm("Do you need a controller?")) {
             
-            $controller = $this->ask('Type the name(s) of the controller(s), if you want to use more than one controller seperate them using ,');
-            $this->callSilent('build:controller', ['controller' => $controller, 'extensionKey' => true]);
+            $controller = $this->ask('Type the name(s) of the controller(s), if you want to use more than one controller separate them using , without a space.');
+            $this->call('build:controller', ['controller' => $controller, 'extensionKey' => $extensionKey]);
             
         }
         
         $this->getFileGeneratorService()->createRootDirectory($config, $extensionKey);
+        
     }
 
     /**

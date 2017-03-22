@@ -29,17 +29,44 @@ class BuildControllerFactory
      * @var string
      */
     protected $extensionKey;
-
+    
     /**
-     * @param string $extensionKey
+     * @param $extensionKey
      * @param array $controllers
+     * @param $new_ext
+     * @return string
      */
-    public function handle($extensionKey, array $controllers)
+    public function handle($extensionKey, array $controllers, $new_ext)
     {
-        $this->extensionKey = $extensionKey;
 
-        foreach ($controllers as $controller) {
-            // todo make handler to copy controller template and replace the values with the new controller name and namespace
+        $extensionDirectory = ROOT_DIRECTORY . "/../" . $extensionKey;
+
+        if ($new_ext == true) {
+            
+            return "You are in the BuildControllerFactory";
+            
+        } else {
+            
+            if (!$this->getFileSystem()->exists($extensionDirectory)) {
+                
+                return "Extension doesn't exist";
+                
+            } else {
+                
+                foreach ($controllers as $controller) {
+
+                    if ($this->getFileSystem()->exists($extensionDirectory . "/Classes/Controller")) {
+                        
+                        //todo handler to replace default value in a controller to the new namespace
+                        
+                        $this->getFileSystem()->copy(ROOT_DIRECTORY . "/app/Console/Templates/DefaultController.php", $extensionDirectory . "/Classes/Controller/" . $controller . ".php");
+                        
+                    }
+                }
+            }
+        }
+        
+        //todo implement this in the replace handler
             $this->getFileReplaceUtility()->findAndReplace(
                 'Target path',
                 [
@@ -47,7 +74,7 @@ class BuildControllerFactory
                     'find2' => 'replacement2'
                 ]
             );
-        }
+
     }
 
     /**
@@ -57,12 +84,12 @@ class BuildControllerFactory
     {
         $this->getFileSystem()->makeDirectory($this->extensionKey . '/Resources/Private/Template/' . $controller);
     }
-
+    
     protected function buildControllerFolder()
     {
         $this->getFileSystem()->makeDirectory($this->extensionKey . '/Classes/Controller');
     }
-
+    
     protected function buildController()
     {
         $newPath = $this->extensionKey . '/Classes/Controller';
