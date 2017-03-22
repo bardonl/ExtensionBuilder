@@ -50,19 +50,15 @@ class Controller extends Command
         $controller = explode(',',$this->argument('controller'));
         $extensionKey = $this->argument('extensionKey');
 
-        switch ($extensionKey) {
+        if ($extensionKey != NULL) {
+
+            $this->getBuildControllerFactory()->handle($extensionKey, $controller);
+
+        } else {
+
+            $extensionKey = $this->ask('Which extension needs the new controller(s)');
+            $this->getBuildControllerFactory()->handle($extensionKey, $controller);
             
-            case !NULL:
-
-                $this->getBuildControllerFactory()->handle($extensionKey, $controller);
-                break;
-
-            default:
-
-                $extensionKey = $this->ask('Which extension needs the new controller(s)');
-                $this->getBuildControllerFactory()->handle($extensionKey, $controller);
-                break;
-
         }
 
     }
