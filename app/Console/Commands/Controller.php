@@ -15,7 +15,7 @@ class Controller extends Command
      *
      * @var string
      */
-    protected $signature = 'build:controller {controller} {extensionKey=}';
+    protected $signature = 'build:controller {controller} {extensionKey?}';
 
     /**
      * The console command description.
