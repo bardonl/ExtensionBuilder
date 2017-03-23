@@ -41,6 +41,7 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         require base_path('routes/console.php');
-        define('ROOT_DIRECTORY', realpath(__DIR__ . "/../../../"));
+        define('ROOT_DIRECTORY', dirname(realpath('./')));
+        define('TEMPLATE_DIRECTORY', dirname(realpath(__DIR__)). '/Console/Templates');
     }
 }

@@ -31,54 +31,49 @@ class BuildControllerFactory
     protected $extensionKey;
     
     /**
-     * @param $extensionKey
+     * @param string $extensionKey
      * @param array $controllers
-     * @param $new_ext
+     * @param bool $new_ext
      * @return string
      */
     public function handle($extensionKey, array $controllers, $new_ext)
     {
 
-        $extensionDirectory = ROOT_DIRECTORY . "/../" . $extensionKey;
-
-        if ($new_ext == true) {
+        $extensionDirectory = ROOT_DIRECTORY . "/" . $extensionKey;
+        
+        if ($new_ext) {
             
             return "You are in the BuildControllerFactory";
             
         } else {
-            
+
             if (!$this->getFileSystem()->exists($extensionDirectory)) {
-                
+
                 return "Extension doesn't exist";
-                
+
             } else {
-                
+
                 foreach ($controllers as $controller) {
 
                     if ($this->getFileSystem()->exists($extensionDirectory . "/Classes/Controller")) {
-                        
-                        //todo handler to replace default value in a controller to the new namespace
-                        
-                        $this->getFileSystem()->copy(ROOT_DIRECTORY . "/app/Console/Templates/DefaultController.php", $extensionDirectory . "/Classes/Controller/" . $controller . ".php");
-                        
+
+                        $this->getFileSystem()->copy(TEMPLATE_DIRECTORY . "/DefaultController.php", $extensionDirectory . "/Classes/Controller/" . $controller . ".php");
+
+                        $this->getFileReplaceUtility()->findAndReplace(
+                            $extensionDirectory . "/Classes/Controller/" . $controller . "php",
+                            [
+                                'TestController' => $controller,
+                                'ExtensionName' => $this->extensionKey
+                            ]
+                        );
                     }
                 }
             }
         }
-        
-        //todo implement this in the replace handler
-            $this->getFileReplaceUtility()->findAndReplace(
-                'Target path',
-                [
-                    'find' => 'replacement',
-                    'find2' => 'replacement2'
-                ]
-            );
-
     }
 
     /**
-     * @param $controller
+     * @param string $controller
      */
     protected function buildTemplateFolder($controller)
     {

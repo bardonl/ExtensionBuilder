@@ -65,8 +65,7 @@ class Extension extends Command
         
         if ($this->confirm("Do you need a controller?")) {
             
-            $controller = $this->ask('Type the name(s) of the controller(s), if you want to use more than one controller separate them using , without a space.');
-            $this->call('build:controller', ['controller' => $controller, 'extensionKey' => $extensionKey]);
+            $this->call('build:controller', ['extensionKey' => $extensionKey]);
             
         }
         

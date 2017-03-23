@@ -15,14 +15,14 @@ class Controller extends Command
      *
      * @var string
      */
-    protected $signature = 'build:controller {controller} {extensionKey?}';
+    protected $signature = 'build:controller {extensionKey?}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command to build a controller, if more is needed separate them with a comma without a space "FooController,BarController"';
+    protected $description = 'Command to build a controller, if more is needed separate them with a comma and a space "FooController, BarController"';
 
     /**
      * The controller factory
@@ -45,10 +45,9 @@ class Controller extends Command
      */
     public function handle()
     {
-        $controller = explode(', ',$this->argument('controller'));
-
+        $controller = array_map('trim', explode("," , $this->ask("Type the name(s) of the controller(s), if you want to use more than one controller separate them using a coma and a space.")));
         $extensionKey = $this->argument('extensionKey');
-
+        
         if ($extensionKey[0] != NULL) {
 
             $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, $new_ext = true));
