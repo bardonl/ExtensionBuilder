@@ -58,12 +58,12 @@ class BuildControllerFactory
                     if ($this->getFileSystem()->exists($extensionDirectory . "/Classes/Controller")) {
 
                         $this->getFileSystem()->copy(TEMPLATE_DIRECTORY . "/DefaultController.php", $extensionDirectory . "/Classes/Controller/" . $controller . ".php");
-
+                        
                         $this->getFileReplaceUtility()->findAndReplace(
-                            $extensionDirectory . "/Classes/Controller/" . $controller . "php",
+                            $extensionDirectory . "/Classes/Controller/" . $controller . ".php",
                             [
                                 'TestController' => $controller,
-                                'ExtensionName' => $this->extensionKey
+                                'ExtensionName' => $extensionKey
                             ]
                         );
                     }
