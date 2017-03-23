@@ -6,6 +6,7 @@ use App\Console\Factory\BuildControllerFactory;
 
 /**
  * Class Controller
+ * 
  * @package App\Console\Commands
  */
 class Controller extends Command

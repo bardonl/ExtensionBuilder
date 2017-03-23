@@ -6,6 +6,7 @@ use App\Console\Services\FileGeneratorService;
 
 /**
  * Class Extension
+ * 
  * @package App\Console\Commands
  */
 class Extension extends Command

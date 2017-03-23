@@ -5,6 +5,7 @@ use Illuminate\Filesystem\Filesystem;
 
 /**
  * Class FileGeneratorService
+ * 
  * @package ExtensionBuilder\Console\Services
  */
 class FileGeneratorService
