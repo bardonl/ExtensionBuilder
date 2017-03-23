@@ -5,6 +5,7 @@ use Illuminate\Console\Command;
 
 /**
  * Class Model
+ * 
  * @package App\Console\Commands
  */
 class Model extends Command
