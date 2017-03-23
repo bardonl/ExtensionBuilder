@@ -56,16 +56,23 @@ class BuildControllerFactory
                 foreach ($controllers as $controller) {
 
                     if ($this->getFileSystem()->exists($extensionDirectory . "/Classes/Controller")) {
-
-                        $this->getFileSystem()->copy(TEMPLATE_DIRECTORY . "/DefaultController.php", $extensionDirectory . "/Classes/Controller/" . $controller . ".php");
                         
-                        $this->getFileReplaceUtility()->findAndReplace(
-                            $extensionDirectory . "/Classes/Controller/" . $controller . ".php",
-                            [
-                                'TestController' => $controller,
-                                'ExtensionName' => $extensionKey
-                            ]
-                        );
+                        if (!$this->getFileSystem()->exists($extensionDirectory . "/Classes/Controller/" . $controller . ".php")){
+                            
+                            $this->getFileSystem()->copy(TEMPLATE_DIRECTORY . "/DefaultController.php", $extensionDirectory . "/Classes/Controller/" . $controller . ".php");
+    
+                            $this->getFileReplaceUtility()->findAndReplace(
+                                $extensionDirectory . "/Classes/Controller/" . $controller . ".php",
+                                [
+                                    'TestController' => $controller,
+                                    'ExtensionName' => $extensionKey
+                                ]
+                            );
+                        } else {
+                            
+                            return "Controller already exists";
+                            
+                        }
                     }
                 }
             }
