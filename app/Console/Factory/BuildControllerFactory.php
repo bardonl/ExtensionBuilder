@@ -25,7 +25,7 @@ class BuildControllerFactory
     /**
      * @param string $extensionKey
      * @param array $controllers
-     * @param bool $new_ext
+     * @param bool $newExt
      * @return string
      */
     public function handle($extensionKey, array $controllers, $newExt)

@@ -7,7 +7,6 @@ use App\Console\Services\TemplateCopyService;
 /**
  * Class GetIlluminateFunctions
  * @package App\Console\Utility
- * 
  *
  */
 class InpendecyInjections

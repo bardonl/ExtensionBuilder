@@ -10,6 +10,11 @@ class TemplateCopyService
      */
     protected $getInpendecyInjections;
     
+    /**
+     * @param $controllers
+     * @param $extensionDirectory
+     * @param $extensionKey
+     */
     public function copy($controllers, $extensionDirectory, $extensionKey)
     {
         $inpendecyInjections = $this->getInpendecyInjections();
@@ -63,7 +68,12 @@ class TemplateCopyService
 
         }
     }
-
+    
+    /**
+     * @param $controller
+     * @param $extensionDirectory
+     * @param $extensionKey
+     */
     public function copyTemplates($controller, $extensionDirectory, $extensionKey)
     {
         $this->getInpendecyInjections()->getFileSystem()->copy(
@@ -80,6 +90,9 @@ class TemplateCopyService
         );
     }
     
+    /**
+     * @param $extensionKey
+     */
     protected function buildControllerDir($extensionKey)
     {
 
