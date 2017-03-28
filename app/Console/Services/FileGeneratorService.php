@@ -15,13 +15,21 @@ class FileGeneratorService
      */
     protected $fileSystem;
 
+    public function createExtensionStructure($config, $extensionKey)
+    {
+
+        $this->createRootDirectory($config, $extensionKey);
+        mkdir(ROOT_DIRECTORY . $extensionKey . "/Classes/Controller");
+
+    }
+
     /**
-     * @param int $type
+     * @param int $config
      * @param string $extensionKey
      */
-    public function createRootDirectory($type, $extensionKey)
+    public function createRootDirectory($config, $extensionKey)
     {
-        if ($type === 0) {
+        if ($config === 0) {
             $extensionKey = ucfirst(explode('_', $extensionKey)[0]);
         }
 

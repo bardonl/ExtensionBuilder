@@ -3,6 +3,7 @@ namespace App\Console\Factory;
 
 use Illuminate\Filesystem\Filesystem;
 use App\Console\Utility\FileReplaceUtility;
+use App\Console\Utility\GetIlluminateFunctions;
 
 /**
  * build controller factory
@@ -14,22 +15,17 @@ class BuildControllerFactory
 {
 
     /**
-     * The file system
-     *
-     * @var Filesystem
-     */
-    protected $fileSystem;
-
-    /**
-     * @var FileReplaceUtility
-     */
-    protected $fileReplaceUtility;
-
-    /**
      * @var string
      */
     protected $extensionKey;
     
+    /**
+     * @var GetIlluminateFunctions
+     */
+    protected $getilluminatefunctions;
+    
+    public $illuminatefunctions;
+
     /**
      * @param string $extensionKey
      * @param array $controllers
@@ -39,42 +35,23 @@ class BuildControllerFactory
     public function handle($extensionKey, array $controllers, $new_ext)
     {
 
+        $illuminatefunctions = $this->getIlluminateFunctions();
+
         $extensionDirectory = ROOT_DIRECTORY . "/" . $extensionKey;
         
         if ($new_ext) {
             
-            return "You are in the BuildControllerFactory";
-            
+
         } else {
 
-            if (!$this->getFileSystem()->exists($extensionDirectory)) {
+            if (!$illuminatefunctions->getFileSystem()->exists($extensionDirectory)) {
 
                 return "Extension doesn't exist";
 
             } else {
-
-                foreach ($controllers as $controller) {
-
-                    if ($this->getFileSystem()->exists($extensionDirectory . "/Classes/Controller")) {
-                        
-                        if (!$this->getFileSystem()->exists($extensionDirectory . "/Classes/Controller/" . $controller . ".php")){
-                            
-                            $this->getFileSystem()->copy(TEMPLATE_DIRECTORY . "/DefaultController.php", $extensionDirectory . "/Classes/Controller/" . $controller . ".php");
     
-                            $this->getFileReplaceUtility()->findAndReplace(
-                                $extensionDirectory . "/Classes/Controller/" . $controller . ".php",
-                                [
-                                    'TestController' => $controller,
-                                    'ExtensionName' => $extensionKey
-                                ]
-                            );
-                        } else {
-                            
-                            return "Controller already exists";
-                            
-                        }
-                    }
-                }
+                $illuminatefunctions->getTemplateCopyService()->copy($controllers, $extensionDirectory, $extensionKey);
+                
             }
         }
     }
@@ -84,41 +61,32 @@ class BuildControllerFactory
      */
     protected function buildTemplateFolder($controller)
     {
-        $this->getFileSystem()->makeDirectory($this->extensionKey . '/Resources/Private/Template/' . $controller);
+        $this->getilluminatefunctions->getFileSystem()->makeDirectory($this->extensionKey . '/Resources/Private/Template/' . $controller);
     }
-    
+
     protected function buildControllerFolder()
     {
-        $this->getFileSystem()->makeDirectory($this->extensionKey . '/Classes/Controller');
+        $this->getilluminatefunctions->getFileSystem()->makeDirectory($this->extensionKey . '/Classes/Controller');
     }
     
     protected function buildController()
     {
         $newPath = $this->extensionKey . '/Classes/Controller';
-        $this->getFileSystem()->copy($newPath, 'Controller template');
+        $this->getilluminatefunctions->getFileSystem()->copy($newPath, 'Controller template');
     }
-
+    
     /**
-     * @return Filesystem
+     * @return GetIlluminateFunctions
      */
-    protected function getFileSystem()
+    public function getIlluminateFunctions()
     {
-        if (($this->fileSystem instanceof Filesystem) === false) {
-            $this->fileSystem = new Filesystem();
+
+        if (($this->getilluminatefunctions instanceof GetIlluminateFunctions) === false) {
+            $this->getilluminatefunctions = new GetIlluminateFunctions();
         }
 
-        return $this->fileSystem;
-    }
+        return $this->getilluminatefunctions;
 
-    /**
-     * @return FileReplaceUtility
-     */
-    protected function getFileReplaceUtility()
-    {
-        if (($this->fileReplaceUtility instanceof FileReplaceUtility) === false ) {
-            $this->fileReplaceUtility = new FileReplaceUtility();
-        }
-
-        return $this->fileReplaceUtility;
     }
+    
 }

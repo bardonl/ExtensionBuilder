@@ -48,19 +48,33 @@ class Extension extends Command
      */
     public function handle()
     {
-        $extensionKey = strtolower($this->argument('extensionKey'));
+
+        $extensionKey = $this->argument('extensionKey');
+
+        if($extensionKey == "info"){
+            $this->info("
+====================================================================================================================
+                                             A Redkiwi product
+                                       Made by Bart de Geus (trainee)
+                                    With a little bit of magic from Rick
+====================================================================================================================
+php artisan build:extension 'extensionkey' : This will build an extension with default config
+            ");
+            die;
+        }
 
         if (!$this->confirm('You named the extension: ' . $extensionKey . ' Is that correct?')) {
-
+            
             $extensionKey = $this->ask('Type new extension key:');
-            $this->call('build:extension', $extensionKey);
+
+            $this->call('build:extension', ['extensionKey' => $extensionKey]);
 
         }
 
         $config = $this->choice(
             
             'Building a configuration template? [0/1]',
-            ['Build a configuration template', 'Build a extension']
+            ['Build a configuration template', 'Build an extension']
             
         );
         
