@@ -77,14 +77,14 @@ php artisan build:extension 'extensionkey' : This will build an extension with d
             ['Build a configuration template', 'Build an extension']
             
         );
+    
+        $this->getFileGeneratorService()->createRootDirectory($config, $extensionKey);
         
         if ($this->confirm("Do you need a controller?")) {
             
             $this->call('build:controller', ['extensionKey' => $extensionKey]);
             
         }
-        
-        $this->getFileGeneratorService()->createRootDirectory($config, $extensionKey);
         
     }
 

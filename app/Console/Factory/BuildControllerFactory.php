@@ -24,8 +24,6 @@ class BuildControllerFactory
      */
     protected $getilluminatefunctions;
     
-    public $illuminatefunctions;
-
     /**
      * @param string $extensionKey
      * @param array $controllers
@@ -37,10 +35,11 @@ class BuildControllerFactory
 
         $illuminatefunctions = $this->getIlluminateFunctions();
 
-        $extensionDirectory = ROOT_DIRECTORY . "/" . $extensionKey;
+        $extensionDirectory = ROOT_DIRECTORY . "\\" . $extensionKey;
         
         if ($new_ext) {
             
+            $illuminatefunctions->getTemplateCopyService()->copy($controllers, $extensionDirectory, $extensionKey);
 
         } else {
 
@@ -54,14 +53,6 @@ class BuildControllerFactory
                 
             }
         }
-    }
-
-    /**
-     * @param string $controller
-     */
-    protected function buildTemplateFolder($controller)
-    {
-        $this->getilluminatefunctions->getFileSystem()->makeDirectory($this->extensionKey . '/Resources/Private/Template/' . $controller);
     }
 
     protected function buildControllerFolder()
