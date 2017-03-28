@@ -37,7 +37,7 @@ class BuildControllerFactory
         
         if ($newExt) {
             
-            $this->getInpendecyInjections()->getTemplateCopyService()->copy($controllers, $extensionDirectory, $extensionKey);
+            $this->getInpendecyInjections()->getTemplateCopyService()->replaceDummyContent($controllers, $extensionDirectory, $extensionKey);
 
         } else {
 
@@ -47,7 +47,7 @@ class BuildControllerFactory
 
             } else {
     
-                $getInpendecyInjections->getTemplateCopyService()->copy($controllers, $extensionDirectory, $extensionKey);
+                $getInpendecyInjections->getTemplateCopyService()->replaceDummyContent($controllers, $extensionDirectory, $extensionKey);
                 
             }
         }

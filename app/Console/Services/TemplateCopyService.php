@@ -15,7 +15,7 @@ class TemplateCopyService
      * @param $extensionDirectory
      * @param $extensionKey
      */
-    public function copy($controllers, $extensionDirectory, $extensionKey)
+    public function replaceDummyContent($controllers, $extensionDirectory, $extensionKey)
     {
         $inpendecyInjections = $this->getInpendecyInjections();
         
