@@ -15,6 +15,10 @@ class FileGeneratorService
      */
     protected $fileSystem;
 
+    /**
+     * @param $config
+     * @param $extensionKey
+     */
     public function createExtensionStructure($config, $extensionKey)
     {
 
