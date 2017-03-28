@@ -17,11 +17,10 @@ class TemplateCopyService
      */
     public function replaceDummyContent($controllers, $extensionDirectory, $extensionKey)
     {
-        $inpendecyInjections = $this->getInpendecyInjections();
         
         foreach ($controllers as $controller) {
 
-            if (!$inpendecyInjections->getFileSystem()->exists($extensionDirectory . "/Classes/Controller")) {
+            if (!$this->getInpendecyInjections()->getFileSystem()->exists($extensionDirectory . "/Classes/Controller")) {
 
                 $this->buildControllerDir($extensionKey);
 
@@ -33,20 +32,6 @@ class TemplateCopyService
                 
             }
         }
-    }
-
-    /**
-     * @return InpendecyInjections
-     */
-    public function getInpendecyInjections()
-    {
-        
-        if (($this->getInpendecyInjections instanceof InpendecyInjections) === false) {
-            $this->getInpendecyInjections = new InpendecyInjections();
-        }
-        
-        return $this->getInpendecyInjections;
-        
     }
     
     /**
@@ -97,6 +82,20 @@ class TemplateCopyService
     {
 
         $this->getInpendecyInjections()->getFileSystem()->makeDirectory($extensionKey . "/Classes/Controller");
+
+    }
+
+    /**
+     * @return InpendecyInjections
+     */
+    public function getInpendecyInjections()
+    {
+
+        if (($this->getInpendecyInjections instanceof InpendecyInjections) === false) {
+            $this->getInpendecyInjections = new InpendecyInjections();
+        }
+
+        return $this->getInpendecyInjections;
 
     }
 }

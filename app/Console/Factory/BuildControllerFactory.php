@@ -31,8 +31,6 @@ class BuildControllerFactory
     public function handle($extensionKey, array $controllers, $newExt)
     {
 
-        $getInpendecyInjections = $this->getInpendecyInjections();
-
         $extensionDirectory = ROOT_DIRECTORY . "\\" . $extensionKey;
         
         if ($newExt) {
@@ -41,13 +39,13 @@ class BuildControllerFactory
 
         } else {
 
-            if (!$getInpendecyInjections->getFileSystem()->exists($extensionDirectory)) {
+            if (!$this->getInpendecyInjections->getFileSystem()->exists($extensionDirectory)) {
 
                 return "Extension doesn't exist";
 
             } else {
     
-                $getInpendecyInjections->getTemplateCopyService()->replaceDummyContent($controllers, $extensionDirectory, $extensionKey);
+                $this->getInpendecyInjections->getTemplateCopyService()->replaceDummyContent($controllers, $extensionDirectory, $extensionKey);
                 
             }
         }
