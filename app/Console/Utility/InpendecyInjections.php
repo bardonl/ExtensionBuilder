@@ -1,13 +1,16 @@
 <?php
 namespace App\Console\Utility;
 
-use Illuminate\Console\Command;
-use App\Console\Factory\BuildControllerFactory;
 use Illuminate\Filesystem\Filesystem;
-use App\Console\Utility\FileReplaceUtility;
 use App\Console\Services\TemplateCopyService;
 
-class GetIlluminateFunctions
+/**
+ * Class GetIlluminateFunctions
+ * @package App\Console\Utility
+ * 
+ *
+ */
+class InpendecyInjections
 {
     
     /**
@@ -25,7 +28,7 @@ class GetIlluminateFunctions
     /**
      * @var TemplateCopyService
      */
-    protected $templatecopyservice;
+    protected $templateCopyService;
     
     /**
      * @return Filesystem
@@ -56,10 +59,10 @@ class GetIlluminateFunctions
      */
     public function getTemplateCopyService()
     {
-        if (($this->templatecopyservice instanceof TemplateCopyService) === false ) {
-            $this->templatecopyservice = new TemplateCopyService();
+        if (($this->templateCopyService instanceof TemplateCopyService) === false ) {
+            $this->templateCopyService = new TemplateCopyService();
         }
         
-        return $this->templatecopyservice;
+        return $this->templateCopyService;
     }
 }

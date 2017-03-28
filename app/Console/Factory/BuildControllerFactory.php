@@ -1,9 +1,7 @@
 <?php
 namespace App\Console\Factory;
 
-use Illuminate\Filesystem\Filesystem;
-use App\Console\Utility\FileReplaceUtility;
-use App\Console\Utility\GetIlluminateFunctions;
+use App\Console\Utility\InpendecyInjections;
 
 /**
  * build controller factory
@@ -20,9 +18,9 @@ class BuildControllerFactory
     protected $extensionKey;
     
     /**
-     * @var GetIlluminateFunctions
+     * @var InpendecyInjections
      */
-    protected $getilluminatefunctions;
+    protected $getInpendecyInjections;
     
     /**
      * @param string $extensionKey
@@ -30,26 +28,26 @@ class BuildControllerFactory
      * @param bool $new_ext
      * @return string
      */
-    public function handle($extensionKey, array $controllers, $new_ext)
+    public function handle($extensionKey, array $controllers, $newExt)
     {
 
-        $illuminatefunctions = $this->getIlluminateFunctions();
+        $getInpendecyInjections = $this->getInpendecyInjections();
 
         $extensionDirectory = ROOT_DIRECTORY . "\\" . $extensionKey;
         
-        if ($new_ext) {
+        if ($newExt) {
             
-            $illuminatefunctions->getTemplateCopyService()->copy($controllers, $extensionDirectory, $extensionKey);
+            $this->getInpendecyInjections()->getTemplateCopyService()->copy($controllers, $extensionDirectory, $extensionKey);
 
         } else {
 
-            if (!$illuminatefunctions->getFileSystem()->exists($extensionDirectory)) {
+            if (!$getInpendecyInjections->getFileSystem()->exists($extensionDirectory)) {
 
                 return "Extension doesn't exist";
 
             } else {
     
-                $illuminatefunctions->getTemplateCopyService()->copy($controllers, $extensionDirectory, $extensionKey);
+                $getInpendecyInjections->getTemplateCopyService()->copy($controllers, $extensionDirectory, $extensionKey);
                 
             }
         }
@@ -57,26 +55,26 @@ class BuildControllerFactory
 
     protected function buildControllerFolder()
     {
-        $this->getilluminatefunctions->getFileSystem()->makeDirectory($this->extensionKey . '/Classes/Controller');
+        $this->getInpendecyInjections->getFileSystem()->makeDirectory($this->extensionKey . '/Classes/Controller');
     }
     
     protected function buildController()
     {
         $newPath = $this->extensionKey . '/Classes/Controller';
-        $this->getilluminatefunctions->getFileSystem()->copy($newPath, 'Controller template');
+        $this->getInpendecyInjections->getFileSystem()->copy($newPath, 'Controller template');
     }
     
     /**
-     * @return GetIlluminateFunctions
+     * @return InpendecyInjections
      */
-    public function getIlluminateFunctions()
+    public function getInpendecyInjections()
     {
 
-        if (($this->getilluminatefunctions instanceof GetIlluminateFunctions) === false) {
-            $this->getilluminatefunctions = new GetIlluminateFunctions();
+        if (($this->getInpendecyInjections instanceof InpendecyInjections) === false) {
+            $this->getInpendecyInjections = new InpendecyInjections();
         }
 
-        return $this->getilluminatefunctions;
+        return $this->getInpendecyInjections;
 
     }
     

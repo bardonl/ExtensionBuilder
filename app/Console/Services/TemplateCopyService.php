@@ -1,25 +1,22 @@
 <?php
 namespace App\Console\Services;
 
-use Illuminate\Filesystem\Filesystem;
-use App\Console\Utility\GetIlluminateFunctions;
+use App\Console\Utility\InpendecyInjections;
 
 class TemplateCopyService
 {
     /**
-     * @var GetIlluminateFunctions
+     * @var InpendecyInjections
      */
-    protected $getilluminatefunctions;
-
-    public $illuminatefunctions;
+    protected $getInpendecyInjections;
     
     public function copy($controllers, $extensionDirectory, $extensionKey)
     {
-        $illuminatefunctions = $this->getIlluminateFunctions();
-
+        $inpendecyInjections = $this->getInpendecyInjections();
+        
         foreach ($controllers as $controller) {
 
-            if (!$illuminatefunctions->getFileSystem()->exists($extensionDirectory . "/Classes/Controller")) {
+            if (!$inpendecyInjections->getFileSystem()->exists($extensionDirectory . "/Classes/Controller")) {
 
                 $this->buildControllerDir($extensionKey);
 
@@ -34,23 +31,29 @@ class TemplateCopyService
     }
 
     /**
-     * @return GetIlluminateFunctions
+     * @return InpendecyInjections
      */
-    public function getIlluminateFunctions()
+    public function getInpendecyInjections()
     {
         
-        if (($this->getilluminatefunctions instanceof GetIlluminateFunctions) === false) {
-            $this->getilluminatefunctions = new GetIlluminateFunctions();
+        if (($this->getInpendecyInjections instanceof InpendecyInjections) === false) {
+            $this->getInpendecyInjections = new InpendecyInjections();
         }
         
-        return $this->getilluminatefunctions;
+        return $this->getInpendecyInjections;
         
     }
-
+    
+    /**
+     * @param array $controller
+     * @param string $extensionDirectory
+     * @param string $extensionKey
+     * @return string
+     */
     public function checkFilesExists($controller, $extensionDirectory, $extensionKey)
     {
 
-        if (!$this->getIlluminateFunctions()->getFileSystem()->exists($extensionDirectory . "/Classes/Controller/" . $controller . ".php")) {
+        if (!$this->getInpendecyInjections()->getFileSystem()->exists($extensionDirectory . "/Classes/Controller/" . $controller . ".php")) {
 
             $this->copyTemplates($controller, $extensionDirectory, $extensionKey);
 
@@ -61,10 +64,14 @@ class TemplateCopyService
         }
     }
 
-    public function copyTemplates($controller, $extensionDirectory, $extensionKey){
-        $this->getIlluminateFunctions()->getFileSystem()->copy(TEMPLATE_DIRECTORY . "/DefaultController.php", $extensionDirectory . "/Classes/Controller/" . $controller . ".php");
+    public function copyTemplates($controller, $extensionDirectory, $extensionKey)
+    {
+        $this->getInpendecyInjections()->getFileSystem()->copy(
+            TEMPLATE_DIRECTORY . "/DefaultController.php", 
+            $extensionDirectory . "/Classes/Controller/" . $controller . ".php"
+        );
 
-        $this->getIlluminateFunctions()->getFileReplaceUtility()->findAndReplace(
+        $this->getInpendecyInjections()->getFileReplaceUtility()->findAndReplace(
             $extensionDirectory . "/Classes/Controller/" . $controller . ".php",
             [
                 'TestController' => $controller,
@@ -73,9 +80,10 @@ class TemplateCopyService
         );
     }
     
-    protected function buildControllerDir($extensionKey){
+    protected function buildControllerDir($extensionKey)
+    {
 
-        $this->getIlluminateFunctions()->getFileSystem()->makeDirectory($extensionKey . "/Classes/Controller");
+        $this->getInpendecyInjections()->getFileSystem()->makeDirectory($extensionKey . "/Classes/Controller");
 
     }
 }

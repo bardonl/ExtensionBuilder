@@ -49,14 +49,14 @@ class Controller extends Command
         $controller = array_map('trim', explode("," , $this->ask("Type the name(s) of the controller(s), if you want to use more than one controller separate them using a coma and a space.")));
         $extensionKey = $this->argument('extensionKey');
         
-        if ($extensionKey[0] != NULL) {
+        if ($extensionKey[0]) {
 
-            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, $new_ext = true));
+            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, $newExt = true));
 
         } else {
 
             $extensionKey = $this->ask('Which extension needs the new controller(s)?');
-            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, $new_ext = false));
+            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, $newExt = false));
 
         }
 

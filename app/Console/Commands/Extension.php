@@ -62,7 +62,7 @@ php artisan build:extension 'extensionkey' : This will build an extension with d
             ");
             die;
         }
-
+        
         if (!$this->confirm('You named the extension: ' . $extensionKey . ' Is that correct?')) {
             
             $extensionKey = $this->ask('Type new extension key:');

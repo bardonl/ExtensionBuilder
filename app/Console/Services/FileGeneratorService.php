@@ -19,7 +19,8 @@ class FileGeneratorService
     {
 
         $this->createRootDirectory($config, $extensionKey);
-        mkdir(ROOT_DIRECTORY . $extensionKey . "/Classes/Controller");
+        $this->getFileSystem()->makeDirectory('');
+//        mkdir(ROOT_DIRECTORY . $extensionKey . "/Classes/Controller");
 
     }
 
