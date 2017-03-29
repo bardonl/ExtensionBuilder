@@ -30,7 +30,7 @@ class BuildFileFactory
     public function handle(array $config, $newExt)
     {
 
-        $config['rootDirectory'] = ROOT_DIRECTORY . "/" . $config['extensionKey'];
+        $config['rootDirectory'] = ROOT_DIRECTORY . '/' . $config['extensionKey'];
 
         if ($newExt) {
 
@@ -39,7 +39,7 @@ class BuildFileFactory
             
             if (!$this->getDependencyInjections()->getFileSystem()->exists( $config['rootDirectory'])) {
 
-                return "Extension doesn't exist";
+                return 'Extension does not exist';
             } else {
 
                 $this->getDependencyInjections()->getTemplateCopyService()->replaceDummyContent($config);

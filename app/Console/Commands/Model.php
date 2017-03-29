@@ -40,7 +40,7 @@ class Model extends Command
     public function handle()
     {
 
-        echo "This is the build:model command";
+        echo 'This is the build:model command';
         sleep(4);
         
     }

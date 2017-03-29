@@ -62,15 +62,15 @@ class Extension extends Command
         ];
 
 
-        if($extensionKey == "info"){
-            $this->info("
+        if($extensionKey == 'info'){
+            $this->info('
 ====================================================================================================================
                                              A Redkiwi product
                                        Made by Bart de Geus (trainee)
                                 With a little bit of magic from Rick in the Field
 ====================================================================================================================
-php artisan build:extension 'extensionkey' : This will build an extension with default config
-            ");
+php artisan build:extension "extensionkey" : This will build an extension with default config
+            ');
             die;
         }
 
@@ -94,7 +94,7 @@ php artisan build:extension 'extensionkey' : This will build an extension with d
 
         $this->getFileGeneratorService()->createRootDirectory($config);
         
-        if ($this->confirm("Do you need a controller?")) {
+        if ($this->confirm('Do you need a controller?')) {
             echo $config['extensionType'];
             $this->call('build:controller', ['config' => $config]);
         }
