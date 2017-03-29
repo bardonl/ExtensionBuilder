@@ -51,12 +51,12 @@ class Controller extends Command
         
         if ($extensionKey[0]) {
 
-            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, $newExt = true));
+            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, true));
 
         } else {
 
             $extensionKey = $this->ask('Which extension needs the new controller(s)?');
-            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, $newExt = false));
+            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, false));
 
         }
 
