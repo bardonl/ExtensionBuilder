@@ -68,6 +68,9 @@ class DependecyInjections
         return $this->templateCopyService;
     }
     
+    /**
+     * @return FileGeneratorService
+     */
     public function getFileGeneratorService()
     {
         if (($this->fileGeneratorService instanceof FileGeneratorService) === false) {

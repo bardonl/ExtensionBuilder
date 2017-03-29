@@ -79,7 +79,6 @@ php artisan build:extension 'extensionkey' : This will build an extension with d
             $config['extensionKey'] = $this->ask('Type new extension key:');
 
             $this->call('build:extension', ['extensionKey' => $config['extensionKey']]);
-
         }
 
         $config['extensionType'] = $this->choice(
@@ -92,8 +91,8 @@ php artisan build:extension 'extensionkey' : This will build an extension with d
         $this->getFileGeneratorService()->createRootDirectory($config);
         
         if ($this->confirm("Do you need a controller?")) {
-            $this->call('build:controller', ['config' => $config]);
             
+            $this->call('build:controller', ['config' => $config]);
         }
         
     }

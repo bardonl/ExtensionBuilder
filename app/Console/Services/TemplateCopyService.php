@@ -23,11 +23,9 @@ class TemplateCopyService
                 $this->getDependecyInjections()->getFileGeneratorService()->buildFolderStructure($config);
 
                 $this->checkFilesExists($key, $config);
-
             } else {
 
                 $this->checkFilesExists($key, $config);
-                
             }
         }
     }
@@ -42,11 +40,9 @@ class TemplateCopyService
         if (!$this->getDependecyInjections()->getFileSystem()->exists($config['rootDirectory'] . '/' . $config['path'] . $key . ".php")) {
 
             $this->copyTemplates($key, $config);
-
         } else {
 
             return "File(s) already exists";
-
         }
     }
     

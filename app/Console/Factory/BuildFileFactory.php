@@ -35,16 +35,14 @@ class BuildFileFactory
         if ($newExt) {
 
             $this->getDependecyInjections()->getTemplateCopyService()->replaceDummyContent($config);
-
         } else {
+            
             if (!$this->getDependecyInjections()->getFileSystem()->exists( $config['rootDirectory'])) {
 
                 return "Extension doesn't exist";
-
             } else {
 
                 $this->getDependecyInjections()->getTemplateCopyService()->replaceDummyContent($config);
-                
             }
         }
     }
@@ -56,11 +54,12 @@ class BuildFileFactory
     {
 
         if (($this->getDependecyInjections instanceof DependecyInjections) === false) {
+            
             $this->getDependecyInjections = new DependecyInjections();
         }
 
         return $this->getDependecyInjections;
-
+        
     }
     
 }

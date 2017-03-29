@@ -44,7 +44,6 @@ class Controller extends Command
      * Execute the console command.
      *
      */
-    
     public function handle()
     {
         if(!empty($this->argument('config'))) {
@@ -54,22 +53,21 @@ class Controller extends Command
             }
 
         } else {
+            
             $config = [];
         }
 
         $config['keys'] = array_map('trim', explode("," , $this->ask("Type the name(s) of the controller(s), if you want to use more than one controller separate them using a coma and a space.")));
-
         $config['path'] = 'Classes/Controller';
         $config['type'] = 'Controller';
 
         if (array_key_exists('extensionKey', $config)) {
+            
             $this->info($this->getBuildFileFactory()->handle($config, true));
-
         } else {
     
             $config['extensionKey'] = $this->ask('Which extension needs the new controller(s)?');
             $this->info($this->getBuildFileFactory()->handle($config, false));
-
         }
 
     }
@@ -82,7 +80,6 @@ class Controller extends Command
         if (($this->fileFactory instanceof BuildFileFactory) === false) {
 
             $this->fileFactory = new BuildFileFactory();
-
         }
 
         return $this->fileFactory;
