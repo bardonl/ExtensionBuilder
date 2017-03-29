@@ -8,7 +8,7 @@ class TemplateCopyService
     /**
      * @var DependencyInjections
      */
-    protected $getDependecyInjections;
+    protected $getDependencyInjections;
     
     /**
      * @param array $config
