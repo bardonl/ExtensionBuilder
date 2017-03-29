@@ -1,12 +1,12 @@
 <?php
 namespace App\Console\Services;
 
-use App\Console\Utility\DependecyInjections;
+use App\Console\Utility\DependencyInjections;
 
 class TemplateCopyService
 {
     /**
-     * @var DependecyInjections
+     * @var DependencyInjections
      */
     protected $getDependecyInjections;
     
@@ -18,9 +18,9 @@ class TemplateCopyService
         
         foreach ($config['keys'] as $key) {
 
-            if (!$this->getDependecyInjections()->getFileSystem()->exists($config['rootDirectory'] . '/' . $config['path'])) {
+            if (!$this->getDependencyInjections()->getFileSystem()->exists($config['rootDirectory'] . '/' . $config['path'])) {
 
-                $this->getDependecyInjections()->getFileGeneratorService()->buildFolderStructure($config);
+                $this->getDependencyInjections()->getFileGeneratorService()->buildFolderStructure($config);
 
                 $this->checkFilesExists($key, $config);
             } else {
@@ -37,7 +37,7 @@ class TemplateCopyService
      */
     public function checkFilesExists($key, $config)
     {
-        if (!$this->getDependecyInjections()->getFileSystem()->exists($config['rootDirectory'] . '/' . $config['path'] . $key . ".php")) {
+        if (!$this->getDependencyInjections()->getFileSystem()->exists($config['rootDirectory'] . '/' . $config['path'] . $key . ".php")) {
 
             $this->copyTemplates($key, $config);
         } else {
@@ -53,12 +53,12 @@ class TemplateCopyService
     public function copyTemplates($key, $config)
     {
 
-        $this->getDependecyInjections()->getFileSystem()->copy(
+        $this->getDependencyInjections()->getFileSystem()->copy(
             TEMPLATE_DIRECTORY . '/Default'. $config['type'] .'.php',
             $config['rootDirectory'] . '/' . $config['path'] . '/' . $key . '.php'
         );
 
-        $this->getDependecyInjections()->getFileReplaceUtility()->findAndReplace(
+        $this->getDependencyInjections()->getFileReplaceUtility()->findAndReplace(
             $config['rootDirectory'] . '/' . $config['path'] . '/' . $key . '.php',
             [
                 'TestController' => $key,
@@ -68,16 +68,16 @@ class TemplateCopyService
     }
 
     /**
-     * @return DependecyInjections
+     * @return DependencyInjections
      */
-    public function getDependecyInjections()
+    public function getDependencyInjections()
     {
 
-        if (($this->getDependecyInjections instanceof DependecyInjections) === false) {
-            $this->getDependecyInjections = new DependecyInjections();
+        if (($this->getDependencyInjections instanceof DependencyInjections) === false) {
+            $this->getDependencyInjections = new DependencyInjections();
         }
 
-        return $this->getDependecyInjections;
+        return $this->getDependencyInjections;
 
     }
 }

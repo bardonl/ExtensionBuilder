@@ -73,25 +73,29 @@ php artisan build:extension 'extensionkey' : This will build an extension with d
             ");
             die;
         }
-        
+
         if (!$this->confirm('You named the extension: ' . $config['extensionKey'] . ' Is that correct?')) {
-            
+
             $config['extensionKey'] = $this->ask('Type new extension key:');
 
             $this->call('build:extension', ['extensionKey' => $config['extensionKey']]);
         }
 
-        $config['extensionType'] = $this->choice(
-            
-            'Building a configuration template? [0/1]',
-            ['Build a configuration template', 'Build an extension']
-            
-        );
-    
+
+        if (empty($config['extensionType'])) {
+
+            $config['extensionType'] = $this->choice(
+
+                'Building a configuration template? [0/1]',
+                ['Build a configuration template', 'Build an extension']
+
+            );
+        }
+
         $this->getFileGeneratorService()->createRootDirectory($config);
         
         if ($this->confirm("Do you need a controller?")) {
-            
+            echo $config['extensionType'];
             $this->call('build:controller', ['config' => $config]);
         }
         

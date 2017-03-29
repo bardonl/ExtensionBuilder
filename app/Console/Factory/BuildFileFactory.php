@@ -1,7 +1,7 @@
 <?php
 namespace App\Console\Factory;
 
-use App\Console\Utility\DependecyInjections;
+use App\Console\Utility\DependencyInjections;
 
 /**
  * build controller factory
@@ -18,9 +18,9 @@ class BuildFileFactory
     protected $extensionKey;
     
     /**
-     * @var DependecyInjections
+     * @var DependencyInjections
      */
-    protected $getDependecyInjections;
+    protected $getDependencyInjections;
     
     /**
      * @param array $config
@@ -34,31 +34,31 @@ class BuildFileFactory
 
         if ($newExt) {
 
-            $this->getDependecyInjections()->getTemplateCopyService()->replaceDummyContent($config);
+            $this->getDependencyInjections()->getTemplateCopyService()->replaceDummyContent($config);
         } else {
             
-            if (!$this->getDependecyInjections()->getFileSystem()->exists( $config['rootDirectory'])) {
+            if (!$this->getDependencyInjections()->getFileSystem()->exists( $config['rootDirectory'])) {
 
                 return "Extension doesn't exist";
             } else {
 
-                $this->getDependecyInjections()->getTemplateCopyService()->replaceDummyContent($config);
+                $this->getDependencyInjections()->getTemplateCopyService()->replaceDummyContent($config);
             }
         }
     }
     
     /**
-     * @return DependecyInjections
+     * @return DependencyInjections
      */
-    public function getDependecyInjections()
+    public function getDependencyInjections()
     {
 
-        if (($this->getDependecyInjections instanceof DependecyInjections) === false) {
+        if (($this->getDependencyInjections instanceof DependencyInjections) === false) {
             
-            $this->getDependecyInjections = new DependecyInjections();
+            $this->getDependencyInjections = new DependencyInjections();
         }
 
-        return $this->getDependecyInjections;
+        return $this->getDependencyInjections;
         
     }
     

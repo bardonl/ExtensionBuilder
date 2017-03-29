@@ -54,6 +54,8 @@ class FileGeneratorService
     {
         $folders = explode('/', $config['path']);
 
+        // @todo maybe think of a way to make it generic so it is possible to change the folder structure in one place and not here
+
         $this->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['extensionKey'] . '/' . $folders[0]);
         $this->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['extensionKey'] .'/' . $folders[0] . '/' . $folders[1]);
         
