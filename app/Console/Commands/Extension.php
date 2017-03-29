@@ -67,7 +67,7 @@ class Extension extends Command
 ====================================================================================================================
                                              A Redkiwi product
                                        Made by Bart de Geus (trainee)
-                                    With a little bit of magic from Rick
+                                With a little bit of magic from Rick in the Field
 ====================================================================================================================
 php artisan build:extension 'extensionkey' : This will build an extension with default config
             ");
