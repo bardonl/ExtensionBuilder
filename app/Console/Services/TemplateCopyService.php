@@ -1,101 +1,87 @@
 <?php
 namespace App\Console\Services;
 
-use App\Console\Utility\InpendecyInjections;
+use App\Console\Utility\DependecyInjections;
 
 class TemplateCopyService
 {
     /**
-     * @var InpendecyInjections
+     * @var DependecyInjections
      */
-    protected $getInpendecyInjections;
+    protected $getDependecyInjections;
     
     /**
-     * @param $controllers
-     * @param $extensionDirectory
-     * @param $extensionKey
+     * @param array $config
      */
-    public function replaceDummyContent($controllers, $extensionDirectory, $extensionKey)
+    public function replaceDummyContent($config)
     {
         
-        foreach ($controllers as $controller) {
+        foreach ($config['keys'] as $key) {
 
-            if (!$this->getInpendecyInjections()->getFileSystem()->exists($extensionDirectory . "/Classes/Controller")) {
+            if (!$this->getDependecyInjections()->getFileSystem()->exists($config['rootDirectory'] . '/' . $config['path'])) {
 
-                $this->buildControllerDir($extensionKey);
+                $this->getDependecyInjections()->getFileGeneratorService()->buildFolderStructure($config);
 
-                $this->checkFilesExists($controller, $extensionDirectory, $extensionKey);
+                $this->checkFilesExists($key, $config);
 
             } else {
 
-                $this->checkFilesExists($controller, $extensionDirectory, $extensionKey);
+                $this->checkFilesExists($key, $config);
                 
             }
         }
     }
     
     /**
-     * @param array $controller
-     * @param string $extensionDirectory
-     * @param string $extensionKey
+     * @param string $key
+     * @param array $config
      * @return string
      */
-    public function checkFilesExists($controller, $extensionDirectory, $extensionKey)
+    public function checkFilesExists($key, $config)
     {
+        if (!$this->getDependecyInjections()->getFileSystem()->exists($config['rootDirectory'] . '/' . $config['path'] . $key . ".php")) {
 
-        if (!$this->getInpendecyInjections()->getFileSystem()->exists($extensionDirectory . "/Classes/Controller/" . $controller . ".php")) {
-
-            $this->copyTemplates($controller, $extensionDirectory, $extensionKey);
+            $this->copyTemplates($key, $config);
 
         } else {
 
-            return "Controller(s) already exists";
+            return "File(s) already exists";
 
         }
     }
     
     /**
-     * @param $controller
-     * @param $extensionDirectory
-     * @param $extensionKey
+     * @param string $key
+     * @param array $config
      */
-    public function copyTemplates($controller, $extensionDirectory, $extensionKey)
+    public function copyTemplates($key, $config)
     {
-        $this->getInpendecyInjections()->getFileSystem()->copy(
-            TEMPLATE_DIRECTORY . "/DefaultController.php", 
-            $extensionDirectory . "/Classes/Controller/" . $controller . ".php"
+
+        $this->getDependecyInjections()->getFileSystem()->copy(
+            TEMPLATE_DIRECTORY . '/Default'. $config['type'] .'.php',
+            $config['rootDirectory'] . '/' . $config['path'] . '/' . $key . '.php'
         );
 
-        $this->getInpendecyInjections()->getFileReplaceUtility()->findAndReplace(
-            $extensionDirectory . "/Classes/Controller/" . $controller . ".php",
+        $this->getDependecyInjections()->getFileReplaceUtility()->findAndReplace(
+            $config['rootDirectory'] . '/' . $config['path'] . '/' . $key . '.php',
             [
-                'TestController' => $controller,
-                'ExtensionName' => $extensionKey
+                'TestController' => $key,
+                'ExtensionName' => $config['extensionKey']
             ]
         );
     }
-    
-    /**
-     * @param $extensionKey
-     */
-    protected function buildControllerDir($extensionKey)
-    {
-
-        $this->getInpendecyInjections()->getFileSystem()->makeDirectory($extensionKey . "/Classes/Controller");
-
-    }
 
     /**
-     * @return InpendecyInjections
+     * @return DependecyInjections
      */
-    public function getInpendecyInjections()
+    public function getDependecyInjections()
     {
 
-        if (($this->getInpendecyInjections instanceof InpendecyInjections) === false) {
-            $this->getInpendecyInjections = new InpendecyInjections();
+        if (($this->getDependecyInjections instanceof DependecyInjections) === false) {
+            $this->getDependecyInjections = new DependecyInjections();
         }
 
-        return $this->getInpendecyInjections;
+        return $this->getDependecyInjections;
 
     }
 }

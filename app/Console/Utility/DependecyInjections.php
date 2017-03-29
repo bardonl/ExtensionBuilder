@@ -3,13 +3,14 @@ namespace App\Console\Utility;
 
 use Illuminate\Filesystem\Filesystem;
 use App\Console\Services\TemplateCopyService;
+use App\Console\Services\FileGeneratorService;
 
 /**
  * Class GetIlluminateFunctions
  * @package App\Console\Utility
  *
  */
-class InpendecyInjections
+class DependecyInjections
 {
     
     /**
@@ -28,6 +29,8 @@ class InpendecyInjections
      * @var TemplateCopyService
      */
     protected $templateCopyService;
+    
+    protected $fileGeneratorService;
     
     /**
      * @return Filesystem
@@ -63,5 +66,16 @@ class InpendecyInjections
         }
         
         return $this->templateCopyService;
+    }
+    
+    public function getFileGeneratorService()
+    {
+        if (($this->fileGeneratorService instanceof FileGeneratorService) === false) {
+            
+            $this->fileGeneratorService = new FileGeneratorService();
+            
+        }
+        
+        return $this->fileGeneratorService;
     }
 }

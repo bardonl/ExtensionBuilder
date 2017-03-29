@@ -51,6 +51,17 @@ class Extension extends Command
 
         $extensionKey = $this->argument('extensionKey');
 
+        $config = [
+            'extensionKey'=> $extensionKey,
+            'type' => '',
+            'path' => '',
+            'extensionType' => '',
+            'keys' => [
+                ''
+            ]
+        ];
+
+
         if($extensionKey == "info"){
             $this->info("
 ====================================================================================================================
@@ -63,26 +74,25 @@ php artisan build:extension 'extensionkey' : This will build an extension with d
             die;
         }
         
-        if (!$this->confirm('You named the extension: ' . $extensionKey . ' Is that correct?')) {
+        if (!$this->confirm('You named the extension: ' . $config['extensionKey'] . ' Is that correct?')) {
             
-            $extensionKey = $this->ask('Type new extension key:');
+            $config['extensionKey'] = $this->ask('Type new extension key:');
 
-            $this->call('build:extension', ['extensionKey' => $extensionKey]);
+            $this->call('build:extension', ['extensionKey' => $config['extensionKey']]);
 
         }
 
-        $config = $this->choice(
+        $config['extensionType'] = $this->choice(
             
             'Building a configuration template? [0/1]',
             ['Build a configuration template', 'Build an extension']
             
         );
     
-        $this->getFileGeneratorService()->createRootDirectory($config, $extensionKey);
+        $this->getFileGeneratorService()->createRootDirectory($config);
         
         if ($this->confirm("Do you need a controller?")) {
-            
-            $this->call('build:controller', ['extensionKey' => $extensionKey]);
+            $this->call('build:controller', ['config' => $config]);
             
         }
         

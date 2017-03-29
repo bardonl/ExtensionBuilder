@@ -19,11 +19,11 @@ class FileGeneratorService
      * @param $config
      * @param $extensionKey
      */
-    public function createExtensionStructure($config, $extensionKey)
+    public function createExtensionStructure(array $config)
     {
 
-        $this->createRootDirectory($config, $extensionKey);
-        $this->getFileSystem()->makeDirectory(ROOT_DIRECTORY . $extensionKey . '/Classes/Controller');
+        $this->createRootDirectory($config);
+        $this->getFileSystem()->makeDirectory(ROOT_DIRECTORY . $config['extensionKey'] . '/Classes/Controller');
 
     }
 
@@ -31,13 +31,13 @@ class FileGeneratorService
      * @param int $config
      * @param string $extensionKey
      */
-    public function createRootDirectory($config, $extensionKey)
+    public function createRootDirectory(array $config)
     {
         if ($config === 0) {
-            $extensionKey = ucfirst(explode('_', $extensionKey)[0]);
+            $config['extensionKey'] = ucfirst(explode('_', $config['extensionKey'])[0]);
         }
 
-        $this->getFileSystem()->makeDirectory(realpath('../') . '/' . $extensionKey);
+        $this->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['extensionKey']);
     }
 
     /**
@@ -51,5 +51,13 @@ class FileGeneratorService
 
         return $this->fileSystem;
     }
+    
+    public function buildFolderStructure($config)
+    {
+        $folders = explode('/', $config['path']);
 
+        $this->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['extensionKey'] . '/' . $folders[0]);
+        $this->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['extensionKey'] .'/' . $folders[0] . '/' . $folders[1]);
+        
+    }
 }

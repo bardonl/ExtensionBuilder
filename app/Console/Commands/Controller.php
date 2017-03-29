@@ -1,8 +1,8 @@
 <?php
 namespace App\Console\Commands;
 
+use App\Console\Factory\BuildFileFactory;
 use Illuminate\Console\Command;
-use App\Console\Factory\BuildControllerFactory;
 
 /**
  * Class Controller
@@ -16,7 +16,7 @@ class Controller extends Command
      *
      * @var string
      */
-    protected $signature = 'build:controller {extensionKey?}';
+    protected $signature = 'build:controller {config?*}';
 
     /**
      * The console command description.
@@ -28,9 +28,9 @@ class Controller extends Command
     /**
      * The controller factory
      *
-     * @var BuildControllerFactory
+     * @var BuildFileFactory
      */
-    protected $controllerFactory;
+    protected $fileFactory;
 
     /**
      * Create a new command instance.
@@ -44,35 +44,47 @@ class Controller extends Command
      * Execute the console command.
      *
      */
+    
     public function handle()
     {
-        $controller = array_map('trim', explode("," , $this->ask("Type the name(s) of the controller(s), if you want to use more than one controller separate them using a coma and a space.")));
-        $extensionKey = $this->argument('extensionKey');
-        
-        if ($extensionKey[0]) {
+        if(!empty($this->argument('config'))) {
 
-            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, true));
+            foreach( $this->argument('config') as $key => $value){
+                $config[$key] = $value;
+            }
 
         } else {
+            $config = [];
+        }
 
-            $extensionKey = $this->ask('Which extension needs the new controller(s)?');
-            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, false));
+        $config['keys'] = array_map('trim', explode("," , $this->ask("Type the name(s) of the controller(s), if you want to use more than one controller separate them using a coma and a space.")));
+
+        $config['path'] = 'Classes/Controller';
+        $config['type'] = 'Controller';
+
+        if (array_key_exists('extensionKey', $config)) {
+            $this->info($this->getBuildFileFactory()->handle($config, true));
+
+        } else {
+    
+            $config['extensionKey'] = $this->ask('Which extension needs the new controller(s)?');
+            $this->info($this->getBuildFileFactory()->handle($config, false));
 
         }
 
     }
 
     /**
-     * @return BuildControllerFactory
+     * @return BuildFileFactory
      */
-    protected function getBuildControllerFactory()
+    protected function getBuildFileFactory()
     {
-        if (($this->controllerFactory instanceof BuildControllerFactory) === false) {
+        if (($this->fileFactory instanceof BuildFileFactory) === false) {
 
-            $this->controllerFactory = new BuildControllerFactory();
+            $this->fileFactory = new BuildFileFactory();
 
         }
 
-        return $this->controllerFactory;
+        return $this->fileFactory;
     }
 }
