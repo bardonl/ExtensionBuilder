@@ -66,6 +66,7 @@ class Extension extends Command
             $config['extensionKey'] = $this->ask('Type new extension key:');
 
             $this->call('build:extension', ['extensionKey' => $config['extensionKey']]);
+            die;
         }
 
 
@@ -74,7 +75,7 @@ class Extension extends Command
             $config['extensionType'] = $this->choice(
 
                 'Building a configuration template?',
-                [0 => 'Build a configuration template', 1=> 'Build an extension']
+                [0 => 'Build a configuration template', 1 => 'Build an extension']
 
             );
         }
@@ -82,9 +83,8 @@ class Extension extends Command
         $this->getFileGeneratorService()->createRootDirectory($config);
 
         if ($this->confirm('Do you need a controller?')) {
-            echo $config['extensionType'];
+
             $this->call('build:controller', ['config' => $config]);
-            die();
         }
 
     }
