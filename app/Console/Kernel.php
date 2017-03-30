@@ -3,6 +3,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * Class Kernel
@@ -19,7 +20,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\Extension::class,
         Commands\Model::class,
-        Commands\Controller::class
+        Commands\Controller::class,
+        Commands\Info::class
     ];
 
     /**

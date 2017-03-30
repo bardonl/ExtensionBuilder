@@ -61,19 +61,6 @@ class Extension extends Command
             ]
         ];
 
-
-        if($extensionKey == 'info'){
-            $this->info('
-====================================================================================================================
-                                             A Redkiwi product
-                                       Made by Bart de Geus (trainee)
-                                With a little bit of magic from Rick in the Field
-====================================================================================================================
-php artisan build:extension "extensionkey" : This will build an extension with default config
-            ');
-            die;
-        }
-
         if (!$this->confirm('You named the extension: ' . $config['extensionKey'] . ' Is that correct?')) {
 
             $config['extensionKey'] = $this->ask('Type new extension key:');
@@ -86,19 +73,20 @@ php artisan build:extension "extensionkey" : This will build an extension with d
 
             $config['extensionType'] = $this->choice(
 
-                'Building a configuration template? [0/1]',
-                ['Build a configuration template', 'Build an extension']
+                'Building a configuration template?',
+                [0 => 'Build a configuration template', 1=> 'Build an extension']
 
             );
         }
 
         $this->getFileGeneratorService()->createRootDirectory($config);
-        
+
         if ($this->confirm('Do you need a controller?')) {
             echo $config['extensionType'];
             $this->call('build:controller', ['config' => $config]);
+            die();
         }
-        
+
     }
 
     /**
@@ -107,9 +95,9 @@ php artisan build:extension "extensionkey" : This will build an extension with d
     protected function getFileGeneratorService()
     {
         if (($this->fileGenerator instanceof FileGeneratorService) === false) {
-            
+
             $this->fileGenerator = new FileGeneratorService();
-            
+
         }
 
         return $this->fileGenerator;
