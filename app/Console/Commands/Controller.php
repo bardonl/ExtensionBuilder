@@ -57,7 +57,7 @@ class Controller extends Command
             $config = [];
         }
 
-        $config['keys'] = array_map('trim', explode(', ' , $this->ask('Type the name(s) of the controller(s), if you want to use more than one controller separate them using a coma and a space.')));
+        $config['keys'] = array_map('trim', explode(',' , $this->ask('Type the name(s) of the controller(s), if you want to use more than one controller separate them using a coma and a space.')));
         $config['path'] = 'Classes/Controller';
         $config['type'] = 'Controller';
 
