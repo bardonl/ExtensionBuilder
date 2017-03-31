@@ -29,7 +29,10 @@ class DependencyInjections
      * @var TemplateCopyService
      */
     protected $templateCopyService;
-    
+
+    /**
+     * @var $fileGeneratorService
+     */
     protected $fileGeneratorService;
     
     /**
