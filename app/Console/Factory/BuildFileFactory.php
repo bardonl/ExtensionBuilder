@@ -7,7 +7,6 @@ use App\Console\Utility\DependencyInjections;
  * build controller factory
  *
  * @package ExtensionBuilder\Console\Factory
- * @author Rick in 't Veld <intveld@redkiwi.nl>, Redkiwi
  */
 class BuildFileFactory
 {

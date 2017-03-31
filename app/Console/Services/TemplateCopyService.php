@@ -3,6 +3,10 @@ namespace App\Console\Services;
 
 use App\Console\Utility\DependencyInjections;
 
+/**
+ * Class TemplateCopyService
+ * @package App\Console\Services
+ */
 class TemplateCopyService
 {
     /**
@@ -58,7 +62,7 @@ class TemplateCopyService
         $this->getDependencyInjections()->getFileReplaceUtility()->findAndReplace(
             $config['rootDirectory'] . '/' . $config['path'] . '/' . $key . '.php',
             [
-                'TestController' => $key,
+                'Test' . $config['type'] => $key,
                 'ExtensionName' => $config['extensionKey']
             ]
         );
