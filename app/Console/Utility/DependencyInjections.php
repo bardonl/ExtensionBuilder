@@ -14,8 +14,6 @@ class DependencyInjections
 {
     
     /**
-     * The file system
-     *
      * @var Filesystem
      */
     protected $fileSystem;
