@@ -44,7 +44,7 @@ class Info extends Command
         
 ====================================================================================================================
 
-                                             A Redkiwi product
+                                      Redkiwi TYPO3 Extension Builder
                                        Made by Bart de Geus (trainee)
                                 With a little bit of magic from Rick in the Field
                                 
