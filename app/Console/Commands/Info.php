@@ -1,9 +1,12 @@
 <?php
-
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+/**
+ * Class Info
+ * @package App\Console\Commands
+ */
 class Info extends Command
 {
     /**
@@ -38,15 +41,19 @@ class Info extends Command
     public function handle()
     {
         $this->info('
+        
 ====================================================================================================================
+
                                              A Redkiwi product
                                        Made by Bart de Geus (trainee)
                                 With a little bit of magic from Rick in the Field
+                                
 ====================================================================================================================
 
-php artisan build:extension "extensionkey"  : This will build an extension with default config
-php artisan build:controller                : This will build a conroller for an existing extension
-php artisan build:model                     : This will build a model for an existing extension
+php artisan build:extension "extensionkey"  :       This will build an extension with default config
+php artisan build:controller                :       This will build a conroller for an existing extension
+php artisan build:model                     :       This will build a model for an existing extension
+
             ');
         die();
     }
