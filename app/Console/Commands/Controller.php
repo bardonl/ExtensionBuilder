@@ -16,14 +16,14 @@ class Controller extends Command
      *
      * @var string
      */
-    public $signature = 'build:controller {config?*}';
+    protected $signature = 'build:controller {config?*}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    public $description = 'Command to build a controller, if more is needed separate them with a comma and a space "FooController, BarController"';
+    protected $description = 'Command to build a controller, if more is needed separate them with a comma and a space "FooController, BarController"';
 
     /**
      * The controller factory
