@@ -17,14 +17,14 @@ class Extension extends Command
      *
      * @var string
      */
-    public $signature = 'build:extension {extensionKey}';
+    protected $signature = 'build:extension {extensionKey}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    public $description = 'The main command to run the extension builder';
+    protected $description = 'The main command to run the extension builder';
 
     /**
      * The file generator
