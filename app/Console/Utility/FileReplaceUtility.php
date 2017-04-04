@@ -7,7 +7,6 @@ use Illuminate\Filesystem\Filesystem;
  * file replace utility
  *
  * @package App\Console\Utility
- * @author Rick in 't Veld <intveld@redkiwi.nl>, Redkiwi
  */
 class FileReplaceUtility
 {

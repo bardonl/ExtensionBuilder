@@ -14,6 +14,8 @@ class DependencyInjections
 {
     
     /**
+     * The file system
+     *
      * @var Filesystem
      */
     protected $fileSystem;
@@ -27,9 +29,9 @@ class DependencyInjections
      * @var TemplateCopyService
      */
     protected $templateCopyService;
-
+    
     /**
-     * @var $fileGeneratorService
+     * @var FileGeneratorService
      */
     protected $fileGeneratorService;
     
