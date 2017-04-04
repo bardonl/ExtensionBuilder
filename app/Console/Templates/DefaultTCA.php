@@ -1,5 +1,5 @@
 <?php
-use Redkiwi\ExtensionName\Domain\Model\TestModel;
+use Redkiwi\ExtensionName\Domain\Model\MODEL;
 
 defined('TYPO3_MODE') or die ('Access denied.');
 
@@ -15,7 +15,7 @@ return call_user_func(function ($extension, $table) {
             'cruser_id' => 'cruser_id',
             'editlock' => 'editlock',
             'dividers2tabs' => true,
-            'iconfile' => 'EXT:ExtensionName/Resources/Public/Icons/TCA/' . $table . '.png',
+            'iconfile' => 'EXT:seh_template/Resources/Public/Icons/TCA/' . $table . '.png',
             'canNotCollapse' => true,
             'searchFields' => 'name'
         ],
@@ -34,4 +34,4 @@ return call_user_func(function ($extension, $table) {
             // TCA fields
         ],
     ];
-}, 'ext_key', TestModel::TABLE);
+}, 'ext_key', MODEL::TABLE);

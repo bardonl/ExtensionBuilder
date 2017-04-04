@@ -4,10 +4,10 @@ namespace Redkiwi\ExtensionName\Domain\Model;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
- * Class TestModel
+ * Class Test
  * @package Redkiwi\ExtensionName\Domain\Model
  */
-class TestModel extends AbstractEntity
+class Test extends AbstractEntity
 {
     const TABLE = 'TABLE_NAME';
 }

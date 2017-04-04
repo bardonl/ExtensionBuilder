@@ -2,7 +2,6 @@
 namespace App\Console\Factory;
 
 use App\Console\Utility\DependencyInjections;
-use Mockery\CountValidator\Exception;
 
 /**
  * build controller factory
@@ -37,14 +36,12 @@ class BuildFileFactory
             $this->getDependencyInjections()->getTemplateCopyService()->replaceDummyContent($config);
         } else {
             
-            try{
-                $this->checkFile($config);
+            if (!$this->getDependencyInjections()->getFileSystem()->exists( $config['rootDirectory'])) {
+
+                return 'Extension does not exist';
+            } else {
+
                 $this->getDependencyInjections()->getTemplateCopyService()->replaceDummyContent($config);
-            } catch (Exception $e) {
-
-                // @todo exception (call base command)
-
-                return 'Caught exception: ' . $e->getMessage() . "\n";
             }
         }
     }
@@ -62,17 +59,6 @@ class BuildFileFactory
 
         return $this->getDependencyInjections;
         
-    }
-    
-    /**
-     * @param array $config
-     * @return bool
-     */
-    function checkFile($config) {
-        if(!$this->getDependencyInjections()->getFileSystem()->exists( $config['rootDirectory'])) {
-            throw new Exception("File doesn't exist");
-        }
-        return true;
     }
     
 }

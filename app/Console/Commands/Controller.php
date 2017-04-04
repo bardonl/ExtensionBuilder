@@ -16,14 +16,14 @@ class Controller extends Command
      *
      * @var string
      */
-    public $signature = 'build:controller {config?*}';
+    protected $signature = 'build:controller {config?*}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    public $description = 'Command to build a controller, if more is needed separate them with a comma and a space "FooController, BarController"';
+    protected $description = 'Command to build a controller, if more is needed separate them with a comma and a space "FooController, BarController"';
 
     /**
      * The controller factory
@@ -58,16 +58,15 @@ class Controller extends Command
         }
 
         $config['keys'] = array_map('trim', explode(',' , $this->ask('Type the name(s) of the controller(s), if you want to use more than one controller separate them using a coma and a space.')));
+        $config['path'] = 'Classes/Controller';
         $config['type'] = 'Controller';
 
         if (array_key_exists('extensionKey', $config)) {
-    
-            $config['path'] = $this->getExtensionPath($config['extensionKey']);
+            
             $this->info($this->getBuildFileFactory()->handle($config, true));
         } else {
-            
+    
             $config['extensionKey'] = $this->ask('Which extension needs the new controller(s)?');
-            $config['path'] = $this->getExtensionPath($config['extensionKey']);
             $this->info($this->getBuildFileFactory()->handle($config, false));
         }
 
@@ -84,14 +83,5 @@ class Controller extends Command
         }
 
         return $this->fileFactory;
-    }
-    
-    /**
-     * @param $extensionKey
-     * @return string
-     */
-    protected function getExtensionPath($extensionKey){
-        $path = $extensionKey . '/Classes/Controller';
-        return $path;
     }
 }

@@ -20,7 +20,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\Extension::class,
         Commands\Model::class,
-        Commands\Controller::class
+        Commands\Controller::class,
+        Commands\Info::class
     ];
 
     /**

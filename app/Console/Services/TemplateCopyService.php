@@ -3,6 +3,10 @@ namespace App\Console\Services;
 
 use App\Console\Utility\DependencyInjections;
 
+/**
+ * Class TemplateCopyService
+ * @package App\Console\Services
+ */
 class TemplateCopyService
 {
     /**
@@ -18,27 +22,28 @@ class TemplateCopyService
         
         foreach ($config['keys'] as $key) {
 
-            if (!$this->getDependencyInjections()->getFileSystem()->exists(realpath('../') . '/' . $config['path'])) {
-                
-                $this->getDependencyInjections()->getFileGeneratorService()->buildFolderStructure($config);
-            }
+            if (!$this->getDependencyInjections()->getFileSystem()->exists($config['rootDirectory'] . '/' . $config['path'])) {
 
+                $this->getDependencyInjections()->getFileGeneratorService()->buildFolderStructure($config);
+                
+            }
             $this->checkFilesExists($key, $config);
         }
     }
     
     /**
-     * @param $key
-     * @param $config
+     * @param string $key
+     * @param array $config
+     * @return string
      */
     public function checkFilesExists($key, $config)
     {
-        if (!$this->getDependencyInjections()->getFileSystem()->exists(realpath('../'). '/' . $config['path'] . '/' . $key . '.php')) {
+        if (!$this->getDependencyInjections()->getFileSystem()->exists($config['rootDirectory'] . '/' . $config['path'] . $key . '.php')) {
 
             $this->copyTemplates($key, $config);
         } else {
 
-            echo 'File(s) already exists';
+            return 'File(s) already exists';
         }
     }
     
@@ -51,11 +56,11 @@ class TemplateCopyService
 
         $this->getDependencyInjections()->getFileSystem()->copy(
             TEMPLATE_DIRECTORY . '/Default'. $config['type'] .'.php',
-            realpath('../') . '/' . $config['path'] . '/' . $key . '.php'
+            $config['rootDirectory'] . '/' . $config['path'] . '/' . $key . '.php'
         );
 
         $this->getDependencyInjections()->getFileReplaceUtility()->findAndReplace(
-            realpath('../') . '/' . $config['path'] . '/' . $key . '.php',
+            $config['rootDirectory'] . '/' . $config['path'] . '/' . $key . '.php',
             [
                 'Test' . $config['type'] => $key,
                 'ExtensionName' => $config['extensionKey']
