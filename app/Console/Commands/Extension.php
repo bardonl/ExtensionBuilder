@@ -17,14 +17,14 @@ class Extension extends Command
      *
      * @var string
      */
-    protected $signature = 'build:extension {extensionKey}';
+    public $signature = 'build:extension {extensionKey}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'The main command to run the extension builder';
+    public $description = 'The main command to run the extension builder';
 
     /**
      * The file generator
@@ -61,6 +61,8 @@ class Extension extends Command
             ]
         ];
 
+        // @todo Place the checks in functions for readabillity
+        
         if (!$this->confirm('You named the extension: ' . $config['extensionKey'] . ' Is that correct?')) {
 
             $config['extensionKey'] = $this->ask('Type new extension key:');
@@ -79,8 +81,6 @@ class Extension extends Command
 
             );
         }
-
-        $this->getFileGeneratorService()->createRootDirectory($config);
 
         if ($this->confirm('Do you need a controller?')) {
 

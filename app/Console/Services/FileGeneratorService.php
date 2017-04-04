@@ -14,27 +14,16 @@ class FileGeneratorService
      * @var Filesystem
      */
     protected $fileSystem;
-
+    
     /**
      * @param array $config
      */
-    public function createExtensionStructure(array $config)
+    public function buildFolderStructure($config)
     {
 
-        $this->createRootDirectory($config);
-        $this->getFileSystem()->makeDirectory(ROOT_DIRECTORY . $config['extensionKey'] . '/Classes/Controller');
-
+        $this->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['path'], 755, true);
     }
-
-    /**
-     * @param array $config
-     */
-    public function createRootDirectory(array $config)
-    {
-
-        $this->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['extensionKey']);
-    }
-
+    
     /**
      * @return Filesystem
      */
@@ -43,17 +32,7 @@ class FileGeneratorService
         if (($this->fileSystem instanceof Filesystem) === false) {
             $this->fileSystem = new Filesystem();
         }
-
-        return $this->fileSystem;
-    }
-    
-    /**
-     * @param array $config
-     */
-    public function buildFolderStructure($config)
-    {
-
-        $this->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['extensionKey'] .'/' . $config['path'], 755, true);
         
+        return $this->fileSystem;
     }
 }
