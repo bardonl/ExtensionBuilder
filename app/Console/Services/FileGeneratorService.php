@@ -1,7 +1,7 @@
 <?php
 namespace App\Console\Services;
 
-use Illuminate\Filesystem\Filesystem;
+use App\Console\Traits\DependencyInjectionManagerTrait;
 
 /**
  * Class FileGeneratorService
@@ -10,29 +10,14 @@ use Illuminate\Filesystem\Filesystem;
  */
 class FileGeneratorService
 {
-    /**
-     * @var Filesystem
-     */
-    protected $fileSystem;
-    
+    use DependencyInjectionManagerTrait;
+
     /**
      * @param array $config
      */
     public function buildFolderStructure($config)
     {
+        $this->dependencyInjectionManager()->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['path'], 755, true);
+    }
 
-        $this->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['path'], 755, true);
-    }
-    
-    /**
-     * @return Filesystem
-     */
-    public function getFileSystem()
-    {
-        if (($this->fileSystem instanceof Filesystem) === false) {
-            $this->fileSystem = new Filesystem();
-        }
-        
-        return $this->fileSystem;
-    }
 }

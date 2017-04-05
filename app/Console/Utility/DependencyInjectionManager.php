@@ -4,6 +4,7 @@ namespace App\Console\Utility;
 use Illuminate\Filesystem\Filesystem;
 use App\Console\Services\TemplateCopyService;
 use App\Console\Services\FileGeneratorService;
+use App\Console\Factory\BuildFileFactory;
 
 /**
  * Class GetIlluminateFunctions
@@ -32,6 +33,11 @@ class DependencyInjectionManager
      * @var FileGeneratorService
      */
     protected $fileGeneratorService;
+
+    /**
+     * @var BuildFileFactory
+     */
+    protected $fileFactory;
     
     /**
      * @return Filesystem
@@ -81,5 +87,18 @@ class DependencyInjectionManager
         }
         
         return $this->fileGeneratorService;
+    }
+
+    /**
+     * @return BuildFileFactory
+     */
+    public function getBuildFileFactory()
+    {
+        if (($this->fileFactory instanceof BuildFileFactory) === false) {
+
+            $this->fileFactory = new BuildFileFactory();
+        }
+
+        return $this->fileFactory;
     }
 }

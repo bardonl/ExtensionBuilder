@@ -1,7 +1,7 @@
 <?php
 namespace App\Console\Utility;
 
-use Illuminate\Filesystem\Filesystem;
+use App\Console\Traits\DependencyInjectionManagerTrait;
 
 /**
  * file replace utility
@@ -10,10 +10,7 @@ use Illuminate\Filesystem\Filesystem;
  */
 class FileReplaceUtility
 {
-    /**
-     * @var FileSystem
-     */
-    protected $fileSystem;
+    use DependencyInjectionManagerTrait;
 
     /**
      * @param string $file
@@ -21,31 +18,19 @@ class FileReplaceUtility
      */
     public function findAndReplace($file, array $replacements)
     {
-        if ($this->getFileSystem()->exists($file)) {
+        if ($this->dependencyInjectionManager()->getFileSystem()->exists($file)) {
 
-            $file_contents = $this->getFileSystem()->get($file);
+            $file_contents = $this->dependencyInjectionManager()->getFileSystem()->get($file);
 
             foreach ($replacements as $find => $replacement) {
 
                 $file_contents = str_replace($find, $replacement, $file_contents);
             }
 
-            $this->getFileSystem()->put(
+            $this->dependencyInjectionManager()->getFileSystem()->put(
                 $file,
                 $file_contents
             );
         }
-    }
-
-    /**
-     * @return Filesystem
-     */
-    public function getFileSystem()
-    {
-        if (($this->fileSystem instanceof Filesystem) === false) {
-            $this->fileSystem = new Filesystem();
-        }
-
-        return $this->fileSystem;
     }
 }

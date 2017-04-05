@@ -1,8 +1,8 @@
 <?php
 namespace App\Console\Commands;
 
-use App\Console\Factory\BuildFileFactory;
 use Illuminate\Console\Command;
+use App\Console\Traits\DependencyInjectionManagerTrait;
 
 /**
  * Class Controller
@@ -11,6 +11,8 @@ use Illuminate\Console\Command;
  */
 class Controller extends Command
 {
+    use DependencyInjectionManagerTrait;
+    
     /**
      * The name and signature of the console command.
      *
@@ -24,13 +26,6 @@ class Controller extends Command
      * @var string
      */
     protected $description = 'Command to build a controller, if more is needed separate them with a comma and a space "FooController, BarController"';
-
-    /**
-     * The controller factory
-     *
-     * @var BuildFileFactory
-     */
-    protected $fileFactory;
 
     /**
      * Create a new command instance.
@@ -48,7 +43,7 @@ class Controller extends Command
     {
         if ($this->argument('config')) {
 
-            foreach( $this->argument('config') as $key => $value) {
+            foreach ( $this->argument('config') as $key => $value) {
                 $config[$key] = $value;
             }
 
@@ -63,27 +58,14 @@ class Controller extends Command
         if (array_key_exists('extensionKey', $config)) {
     
             $config['path'] = $this->getExtensionPath($config['extensionKey']);
-            $this->info($this->getBuildFileFactory()->handle($config, true));
+            $this->info($this->dependencyInjectionManager()->getBuildFileFactory()->handle($config, true));
         } else {
             
             $config['extensionKey'] = $this->ask('Which extension needs the new controller(s)?');
             $config['path'] = $this->getExtensionPath($config['extensionKey']);
-            $this->info($this->getBuildFileFactory()->handle($config, false));
+            $this->info($this->dependencyInjectionManager()->getBuildFileFactory()->handle($config, false));
         }
 
-    }
-
-    /**
-     * @return BuildFileFactory
-     */
-    protected function getBuildFileFactory()
-    {
-        if (($this->fileFactory instanceof BuildFileFactory) === false) {
-
-            $this->fileFactory = new BuildFileFactory();
-        }
-
-        return $this->fileFactory;
     }
     
     /**

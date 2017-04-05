@@ -2,7 +2,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Console\Services\FileGeneratorService;
 
 /**
  * Class Extension
@@ -25,14 +24,7 @@ class Extension extends Command
      * @var string
      */
     protected $description = 'The main command to run the extension builder';
-
-    /**
-     * The file generator
-     *
-     * @var FileGeneratorService
-     */
-    protected $fileGenerator;
-
+    
     /**
      * Create a new command instance.
      */
@@ -64,21 +56,9 @@ class Extension extends Command
         $this->chooseExtensionType($config);
 
         $this->confirmController($config);
+        
+        $this->confirmModel($config);
 
-    }
-
-    /**
-     * @return FileGeneratorService
-     */
-    protected function getFileGeneratorService()
-    {
-        if (($this->fileGenerator instanceof FileGeneratorService) === false) {
-
-            $this->fileGenerator = new FileGeneratorService();
-
-        }
-
-        return $this->fileGenerator;
     }
 
     /**
@@ -123,6 +103,15 @@ class Extension extends Command
         if ($this->confirm('Do you need a controller?')) {
 
             $this->call('build:controller', ['config' => $config]);
+        }
+    }
+    
+    public function confirmModel($config)
+    {
+        if ($this->confirm('Do you need a model?')) {
+            
+            $this->call('build:model', ['config' => $config]);
+            
         }
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace App\Console\Factory;
 
-use App\Console\Utility\DependencyInjectionManager;
+use App\Console\Traits\DependencyInjectionManagerTrait;
 use Mockery\CountValidator\Exception;
 
 /**
@@ -11,16 +11,13 @@ use Mockery\CountValidator\Exception;
  */
 class BuildFileFactory
 {
+    
+    use DependencyInjectionManagerTrait;
 
     /**
      * @var string
      */
     protected $extensionKey;
-    
-    /**
-     * @var DependencyInjectionManager
-     */
-    protected $dependencyInjectionsManager;
     
     /**
      * @param array $config
@@ -47,21 +44,6 @@ class BuildFileFactory
                 return 'Caught exception: ' . $e->getMessage() . "\n";
             }
         }
-    }
-    
-    /**
-     * @return DependencyInjectionManager
-     */
-    public function dependencyInjectionManager()
-    {
-
-        if (($this->dependencyInjectionsManager instanceof DependencyInjectionManager) === false) {
-            
-            $this->dependencyInjectionsManager = new DependencyInjectionManager();
-        }
-
-        return $this->dependencyInjectionsManager;
-        
     }
     
     /**

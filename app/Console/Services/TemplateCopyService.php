@@ -1,26 +1,17 @@
 <?php
 namespace App\Console\Services;
 
-use App\Console\Utility\DependencyInjectionManager;
+use App\Console\Traits\DependencyInjectionManagerTrait;
 
-/**
- * Class TemplateCopyService
- * 
- * @package App\Console\Services
- */
 class TemplateCopyService
 {
-    /**
-     * @var DependencyInjectionManager
-     */
-    protected $dependencyInjectionManager;
+    use DependencyInjectionManagerTrait;
     
     /**
      * @param array $config
      */
     public function replaceDummyContent($config)
     {
-
         foreach ($config['keys'] as $key) {
 
             if (!$this->dependencyInjectionManager()->getFileSystem()->exists(realpath('../') . '/' . $config['path'])) {
@@ -67,16 +58,4 @@ class TemplateCopyService
         
     }
 
-    /**
-     * @return DependencyInjectionManager
-     */
-    public function dependencyInjectionManager()
-    {
-
-        if (($this->dependencyInjectionManager instanceof DependencyInjectionManager) === false) {
-            $this->dependencyInjectionManager = new DependencyInjectionManager();
-        }
-
-        return $this->dependencyInjectionManager;
-    }
 }
