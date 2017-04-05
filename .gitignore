@@ -11,3 +11,5 @@ Homestead.yaml
 .idea/*
 /app/Console/Templates/Page.js
 /app/Console/Templates/Page.js.map
+/app/Console/Templates/Config.js
+/app/Console/Templates/Config.js.map
