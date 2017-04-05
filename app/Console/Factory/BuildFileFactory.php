@@ -2,7 +2,6 @@
 namespace App\Console\Factory;
 
 use App\Console\Traits\DependencyInjectionManagerTrait;
-use Mockery\CountValidator\Exception;
 
 /**
  * build controller factory
@@ -38,7 +37,7 @@ class BuildFileFactory
                 
                 $this->checkFile($config);
                 $this->dependencyInjectionManager()->getTemplateCopyService()->replaceDummyContent($config);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
 
                 // @todo exception (call base command)
                 return 'Caught exception: ' . $e->getMessage() . "\n";
@@ -52,7 +51,7 @@ class BuildFileFactory
      */
     function checkFile($config) {
         if(!$this->dependencyInjectionManager()->getFileSystem()->exists( $config['rootDirectory'])) {
-            throw new Exception("Folder doesn't exist");
+            throw new \Exception("Folder doesn't exist");
         }
         return true;
     }
