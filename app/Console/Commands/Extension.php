@@ -49,10 +49,8 @@ class Extension extends Command
     public function handle()
     {
 
-        $extensionKey = $this->argument('extensionKey');
-
         $config = [
-            'extensionKey'=> $extensionKey,
+            'extensionKey'=> $this->argument('extensionKey'),
             'type' => '',
             'path' => '',
             'extensionType' => '',

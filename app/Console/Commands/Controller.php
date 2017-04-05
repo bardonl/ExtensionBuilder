@@ -46,7 +46,7 @@ class Controller extends Command
      */
     public function handle()
     {
-        if(!empty($this->argument('config'))) {
+        if($this->argument('config')) {
 
             foreach( $this->argument('config') as $key => $value){
                 $config[$key] = $value;
@@ -92,6 +92,7 @@ class Controller extends Command
      */
     protected function getExtensionPath($extensionKey){
         $path = $extensionKey . '/Classes/Controller';
+        
         return $path;
     }
 }

@@ -9,3 +9,5 @@ Homestead.yaml
 .env
 .idea
 .idea/*
+/app/Console/Templates/Page.js
+/app/Console/Templates/Page.js.map
