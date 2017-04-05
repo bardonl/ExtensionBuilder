@@ -1,7 +1,7 @@
 <?php
 namespace App\Console\Factory;
 
-use App\Console\Utility\DependencyInjections;
+use App\Console\Utility\DependencyInjectionManager;
 use Mockery\CountValidator\Exception;
 
 /**
@@ -18,9 +18,9 @@ class BuildFileFactory
     protected $extensionKey;
     
     /**
-     * @var DependencyInjections
+     * @var DependencyInjectionManager
      */
-    protected $getDependencyInjections;
+    protected $dependencyInjectionsManager;
     
     /**
      * @param array $config
@@ -34,13 +34,13 @@ class BuildFileFactory
 
         if ($newExt) {
 
-            $this->getDependencyInjections()->getTemplateCopyService()->replaceDummyContent($config);
+            $this->dependencyInjectionManager()->getTemplateCopyService()->replaceDummyContent($config);
         } else {
             
             try{
                 
                 $this->checkFile($config);
-                $this->getDependencyInjections()->getTemplateCopyService()->replaceDummyContent($config);
+                $this->dependencyInjectionManager()->getTemplateCopyService()->replaceDummyContent($config);
             } catch (Exception $e) {
 
                 // @todo exception (call base command)
@@ -50,17 +50,17 @@ class BuildFileFactory
     }
     
     /**
-     * @return DependencyInjections
+     * @return DependencyInjectionManager
      */
-    public function getDependencyInjections()
+    public function dependencyInjectionManager()
     {
 
-        if (($this->getDependencyInjections instanceof DependencyInjections) === false) {
+        if (($this->dependencyInjectionsManager instanceof DependencyInjectionManager) === false) {
             
-            $this->getDependencyInjections = new DependencyInjections();
+            $this->dependencyInjectionsManager = new DependencyInjectionManager();
         }
 
-        return $this->getDependencyInjections;
+        return $this->dependencyInjectionsManager;
         
     }
     

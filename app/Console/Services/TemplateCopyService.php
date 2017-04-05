@@ -1,14 +1,14 @@
 <?php
 namespace App\Console\Services;
 
-use App\Console\Utility\DependencyInjections;
+use App\Console\Utility\DependencyInjectionManager;
 
 class TemplateCopyService
 {
     /**
-     * @var DependencyInjections
+     * @var DependencyInjectionManager
      */
-    protected $getDependencyInjections;
+    protected $dependencyInjectionManager;
     
     /**
      * @param array $config
@@ -18,9 +18,9 @@ class TemplateCopyService
         
         foreach ($config['keys'] as $key) {
 
-            if (!$this->getDependencyInjections()->getFileSystem()->exists(realpath('../') . '/' . $config['path'])) {
+            if (!$this->dependencyInjectionManager()->getFileSystem()->exists(realpath('../') . '/' . $config['path'])) {
                 
-                $this->getDependencyInjections()->getFileGeneratorService()->buildFolderStructure($config);
+                $this->dependencyInjectionManager()->getFileGeneratorService()->buildFolderStructure($config);
             }
 
             $this->checkFilesExists($key, $config);
@@ -33,7 +33,7 @@ class TemplateCopyService
      */
     public function checkFilesExists($key, $config)
     {
-        if (!$this->getDependencyInjections()->getFileSystem()->exists(realpath('../'). '/' . $config['path'] . '/' . $key . '.php')) {
+        if (!$this->dependencyInjectionManager()->getFileSystem()->exists(realpath('../'). '/' . $config['path'] . '/' . $key . '.php')) {
 
             $this->copyTemplates($key, $config);
         } else {
@@ -49,12 +49,12 @@ class TemplateCopyService
     public function copyTemplates($key, $config)
     {
 
-        $this->getDependencyInjections()->getFileSystem()->copy(
+        $this->dependencyInjectionManager()->getFileSystem()->copy(
             TEMPLATE_DIRECTORY . '/Default'. $config['type'] .'.php',
             realpath('../') . '/' . $config['path'] . '/' . $key . '.php'
         );
 
-        $this->getDependencyInjections()->getFileReplaceUtility()->findAndReplace(
+        $this->dependencyInjectionManager()->getFileReplaceUtility()->findAndReplace(
             realpath('../') . '/' . $config['path'] . '/' . $key . '.php',
             [
                 'Test' . $config['type'] => $key,
@@ -65,16 +65,16 @@ class TemplateCopyService
     }
 
     /**
-     * @return DependencyInjections
+     * @return DependencyInjectionManager
      */
-    public function getDependencyInjections()
+    public function dependencyInjectionManager()
     {
 
-        if (($this->getDependencyInjections instanceof DependencyInjections) === false) {
-            $this->getDependencyInjections = new DependencyInjections();
+        if (($this->dependencyInjectionManager instanceof DependencyInjectionManager) === false) {
+            $this->dependencyInjectionsManager = new DependencyInjectionManager();
         }
 
-        return $this->getDependencyInjections;
+        return $this->dependencyInjectionManager;
 
     }
 }

@@ -10,7 +10,7 @@ use App\Console\Services\FileGeneratorService;
  * @package App\Console\Utility
  *
  */
-class DependencyInjections
+class DependencyInjectionManager
 {
     
     /**
