@@ -28,8 +28,8 @@ class TemplateCopyService
     }
     
     /**
-     * @param $key
-     * @param $config
+     * @param string $key
+     * @param array $config
      */
     public function checkFilesExists($key, $config)
     {
