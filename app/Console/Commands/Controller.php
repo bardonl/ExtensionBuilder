@@ -87,7 +87,7 @@ class Controller extends Command
     }
     
     /**
-     * @param $extensionKey
+     * @param string $extensionKey
      * @return string
      */
     protected function getExtensionPath($extensionKey){
