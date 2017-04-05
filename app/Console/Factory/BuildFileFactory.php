@@ -38,12 +38,12 @@ class BuildFileFactory
         } else {
             
             try{
+                
                 $this->checkFile($config);
                 $this->getDependencyInjections()->getTemplateCopyService()->replaceDummyContent($config);
             } catch (Exception $e) {
 
                 // @todo exception (call base command)
-
                 return 'Caught exception: ' . $e->getMessage() . "\n";
             }
         }
