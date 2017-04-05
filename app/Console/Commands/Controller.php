@@ -90,7 +90,8 @@ class Controller extends Command
      * @param string $extensionKey
      * @return string
      */
-    protected function getExtensionPath($extensionKey){
+    protected function getExtensionPath($extensionKey)
+    {
         $path = $extensionKey . '/Classes/Controller';
         
         return $path;
