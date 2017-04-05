@@ -7,8 +7,8 @@ use App\Console\Services\FileGeneratorService;
 
 /**
  * Class GetIlluminateFunctions
+ * 
  * @package App\Console\Utility
- *
  */
 class DependencyInjectionManager
 {

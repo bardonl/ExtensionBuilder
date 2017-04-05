@@ -3,6 +3,11 @@ namespace App\Console\Services;
 
 use App\Console\Utility\DependencyInjectionManager;
 
+/**
+ * Class TemplateCopyService
+ * 
+ * @package App\Console\Services
+ */
 class TemplateCopyService
 {
     /**
