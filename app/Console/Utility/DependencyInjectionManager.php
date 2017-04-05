@@ -14,8 +14,6 @@ class DependencyInjectionManager
 {
     
     /**
-     * The file system
-     *
      * @var Filesystem
      */
     protected $fileSystem;

@@ -15,14 +15,12 @@ class TemplateCopyService
      */
     public function replaceDummyContent($config)
     {
-        
+
         foreach ($config['keys'] as $key) {
 
             if (!$this->dependencyInjectionManager()->getFileSystem()->exists(realpath('../') . '/' . $config['path'])) {
-                
                 $this->dependencyInjectionManager()->getFileGeneratorService()->buildFolderStructure($config);
             }
-
             $this->checkFilesExists($key, $config);
         }
     }
@@ -33,7 +31,7 @@ class TemplateCopyService
      */
     public function checkFilesExists($key, $config)
     {
-        if (!$this->dependencyInjectionManager()->getFileSystem()->exists(realpath('../'). '/' . $config['path'] . '/' . $key . '.php')) {
+        if (!$this->dependencyInjectionManager()->getFileSystem()->exists(realpath('../'). '/' . $config['path'] . $key . '.php')) {
 
             $this->copyTemplates($key, $config);
         } else {
@@ -51,11 +49,11 @@ class TemplateCopyService
 
         $this->dependencyInjectionManager()->getFileSystem()->copy(
             TEMPLATE_DIRECTORY . '/Default'. $config['type'] .'.php',
-            realpath('../') . '/' . $config['path'] . '/' . $key . '.php'
+            realpath('../') . '/' . $config['path'] . $key . '.php'
         );
 
         $this->dependencyInjectionManager()->getFileReplaceUtility()->findAndReplace(
-            realpath('../') . '/' . $config['path'] . '/' . $key . '.php',
+            realpath('../') . '/' . $config['path'] . $key . '.php',
             [
                 'Test' . $config['type'] => $key,
                 'ExtensionName' => $config['extensionKey']
@@ -71,7 +69,7 @@ class TemplateCopyService
     {
 
         if (($this->dependencyInjectionManager instanceof DependencyInjectionManager) === false) {
-            $this->dependencyInjectionsManager = new DependencyInjectionManager();
+            $this->dependencyInjectionManager = new DependencyInjectionManager();
         }
 
         return $this->dependencyInjectionManager;
