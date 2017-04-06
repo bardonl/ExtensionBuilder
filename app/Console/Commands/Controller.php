@@ -69,22 +69,25 @@ class Controller extends Command
     }
     
     /**
-     * @param string $extensionKey
-     * @return string
+     * @param array $config
+     * @return array $paths
      */
     protected function getPath($config)
     {
         $paths[] = $config['extensionKey'] . '/Classes/Controller/';
+        
         foreach ($config['keys'] as $key) {
             $paths[] = $config['extensionKey'] . '/Resources/Private/Templates/' . str_replace('Controller', '', $key) . '/';
         }
+        
+        $paths[] = $config['extensionKey'] . '/Resources/Private/Language';
 
         foreach ($paths as $path) {
-            if(!$this->dependencyInjectionManager()->getFileSystem()->isDirectory($path)){
+            if(!$this->dependencyInjectionManager()->getFileSystem()->isDirectory(realpath('../') . '/' . $path)){
                 $this->dependencyInjectionManager()->getFileGeneratorService()->buildFolderStructure($path);
             }
         }
-        
+
         return $paths;
     }
 }
