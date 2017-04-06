@@ -57,12 +57,12 @@ class Controller extends Command
 
         if (array_key_exists('extensionKey', $config)) {
     
-            $config['path'] = $this->getExtensionPath($config['extensionKey']);
+            $config['path'] = $this->getPath($config);
             $this->info($this->dependencyInjectionManager()->getBuildFileFactory()->handle($config, true));
         } else {
             
             $config['extensionKey'] = $this->ask('Which extension needs the new controller(s)?');
-            $config['path'] = $this->getExtensionPath($config['extensionKey']);
+            $config['path'] = $this->getPath($config);
             $this->info($this->dependencyInjectionManager()->getBuildFileFactory()->handle($config, false));
         }
 
@@ -72,10 +72,19 @@ class Controller extends Command
      * @param string $extensionKey
      * @return string
      */
-    protected function getExtensionPath($extensionKey)
+    protected function getPath($config)
     {
-        $path = $extensionKey . '/Classes/Controller/';
+        $paths[] = $config['extensionKey'] . '/Classes/Controller/';
+        foreach ($config['keys'] as $key) {
+            $paths[] = $config['extensionKey'] . '/Resources/Private/Templates/' . str_replace('Controller', '', $key) . '/';
+        }
+
+        foreach ($paths as $path) {
+            if(!$this->dependencyInjectionManager()->getFileSystem()->isDirectory($path)){
+                $this->dependencyInjectionManager()->getFileGeneratorService()->buildFolderStructure($path);
+            }
+        }
         
-        return $path;
+        return $paths;
     }
 }
