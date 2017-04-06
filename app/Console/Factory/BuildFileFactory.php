@@ -10,13 +10,7 @@ use App\Console\Traits\DependencyInjectionManagerTrait;
  */
 class BuildFileFactory
 {
-    
     use DependencyInjectionManagerTrait;
-
-    /**
-     * @var string
-     */
-    protected $extensionKey;
     
     /**
      * @param array $config
@@ -35,7 +29,7 @@ class BuildFileFactory
             
             try{
                 
-                $this->checkFile($config);
+                $this->checkFolder($config);
                 $this->dependencyInjectionManager()->getTemplateCopyService()->replaceDummyContent($config);
             } catch (\Exception $e) {
 
@@ -49,8 +43,8 @@ class BuildFileFactory
      * @param array $config
      * @return bool
      */
-    function checkFile($config) {
-        if(!$this->dependencyInjectionManager()->getFileSystem()->exists( $config['rootDirectory'])) {
+    function checkFolder($config) {
+        if(!$this->dependencyInjectionManager()->getFileSystem()->isDirectory( $config['rootDirectory'])) {
             throw new \Exception("Folder doesn't exist");
         }
         return true;
