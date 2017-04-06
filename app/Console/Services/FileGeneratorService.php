@@ -15,9 +15,9 @@ class FileGeneratorService
     /**
      * @param array $config
      */
-    public function buildFolderStructure($config)
+    public function buildFolderStructure($path)
     {
-        $this->dependencyInjectionManager()->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['path'], 755, true);
+        $this->dependencyInjectionManager()->getFileSystem()->makeDirectory(realpath('../') . '/' . $path, 755, true);
     }
 
 }

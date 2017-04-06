@@ -14,9 +14,6 @@ class TemplateCopyService
     {
         foreach ($config['keys'] as $key) {
 
-            if (!$this->dependencyInjectionManager()->getFileSystem()->exists(realpath('../') . '/' . $config['path'])) {
-                $this->dependencyInjectionManager()->getFileGeneratorService()->buildFolderStructure($config);
-            }
             $this->checkFilesExists($key, $config);
         }
     }
@@ -27,8 +24,8 @@ class TemplateCopyService
      */
     public function checkFilesExists($key, $config)
     {
-        if (!$this->dependencyInjectionManager()->getFileSystem()->exists(realpath('../'). '/' . $config['path'] . $key . '.php')) {
-
+        // @todo make it work with a path array
+        if (!$this->dependencyInjectionManager()->getFileSystem()->exists(realpath('../') . '/' . $config['path'][0] . $key . '.php')) {
             $this->copyTemplates($key, $config);
         } else {
 
@@ -42,14 +39,13 @@ class TemplateCopyService
      */
     public function copyTemplates($key, $config)
     {
-
         $this->dependencyInjectionManager()->getFileSystem()->copy(
-            TEMPLATE_DIRECTORY . '/Default'. $config['type'] .'.php',
-            realpath('../') . '/' . $config['path'] . $key . '.php'
+            TEMPLATE_DIRECTORY . '/Default' . $config['type'] . '.php',
+            realpath('../') . '/' . $config['path'][0] . $key . '.php'
         );
 
         $this->dependencyInjectionManager()->getFileReplaceUtility()->findAndReplace(
-            realpath('../') . '/' . $config['path'] . $key . '.php',
+            realpath('../') . '/' . $config['path'][0] . $key . '.php',
             [
                 'Test' . $config['type'] => $key,
                 'ExtensionName' => $config['extensionKey']
