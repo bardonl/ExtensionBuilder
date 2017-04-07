@@ -83,7 +83,7 @@ class Controller extends Command
         $paths[] = $config['extensionKey'] . '/Resources/Private/Language';
 
         foreach ($paths as $path) {
-            if(!$this->dependencyInjectionManager()->getFileSystem()->isDirectory(realpath('../') . '/' . $path)){
+            if (!$this->dependencyInjectionManager()->getFileSystem()->isDirectory(realpath('../') . '/' . $path)) {
                 $this->dependencyInjectionManager()->getFileGeneratorService()->buildFolderStructure($path);
             }
         }

@@ -44,7 +44,7 @@ class BuildFileFactory
      * @return bool
      */
     function checkFolder($config) {
-        if(!$this->dependencyInjectionManager()->getFileSystem()->isDirectory( $config['rootDirectory'])) {
+        if (!$this->dependencyInjectionManager()->getFileSystem()->isDirectory( $config['rootDirectory'])) {
             throw new \Exception("Folder doesn't exist");
         }
         return true;

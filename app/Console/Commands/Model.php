@@ -1,6 +1,7 @@
 <?php
 namespace App\Console\Commands;
 
+use App\Console\Traits\DependencyInjectionManagerTrait;
 use Illuminate\Console\Command;
 
 /**
@@ -10,12 +11,14 @@ use Illuminate\Console\Command;
  */
 class Model extends Command
 {
+    use DependencyInjectionManagerTrait;
+    
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'build:model {model*}';
+    protected $signature = 'build:model {config?*}';
 
     /**
      * The console command description.
@@ -39,9 +42,48 @@ class Model extends Command
      */
     public function handle()
     {
-
-        echo 'This is the build:model command';
-        sleep(4);
+    
+        if ($this->argument('config')) {
         
+            foreach( $this->argument('config') as $key => $value) {
+                $config[$key] = $value;
+            }
+        
+        } else {
+        
+            $config = [];
+        }
+
+        $config['keys'] = array_map('trim', explode(',' , $this->ask('Type the name(s) of the model(s), if you want to use more than one model separate them using a coma and a space.')));
+        $config['type'] = 'Model';
+
+        if (array_key_exists('extensionKey', $config)) {
+
+            $config['path'] = $this->getExtensionPath($config);
+            $this->info($this->dependencyInjectionManager()->getBuildFileFactory()->handle($config, true));
+        } else {
+
+            $config['extensionKey'] = $this->ask('Which extension needs the new model(s)?');
+            $config['path'] = $this->getExtensionPath($config);
+            $this->info($this->dependencyInjectionManager()->getBuildFileFactory()->handle($config, false));
+        }
+    }
+
+    /**
+     * @param array $config
+     * @return array $paths
+     */
+    protected function getExtensionPath($config)
+    {
+        $paths[] = $config['extensionKey'] . '/Classes/Domain/Model/';
+        $paths[] = $config['extensionKey'] . '/Configuration/TCA/';
+    
+        foreach ($paths as $path) {
+            if (!$this->dependencyInjectionManager()->getFileSystem()->isDirectory(realpath('../') . '/' . $path)) {
+                $this->dependencyInjectionManager()->getFileGeneratorService()->buildFolderStructure($path);
+            }
+        }
+        
+        return $paths;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Console\Commands;
 
+use App\Console\Traits\DependencyInjectionManagerTrait;
 use Illuminate\Console\Command;
 
 /**
@@ -10,6 +11,7 @@ use Illuminate\Console\Command;
  */
 class Extension extends Command
 {
+    use DependencyInjectionManagerTrait;
     
     /**
      * The name and signature of the console command.
@@ -40,18 +42,20 @@ class Extension extends Command
      */
     public function handle()
     {
-
         $config = [
             'extensionKey'=> $this->argument('extensionKey'),
             'type' => '',
             'path' => '',
             'extensionType' => '',
+            'rootDirectory' => ROOT_DIRECTORY . '/' . $this->argument('extensionKey'),
             'keys' => [
                 ''
             ]
         ];
 
         $this->confirmExtensionKey($config);
+        
+        $this->dependencyInjectionManager()->getFileGeneratorService()->buildRoot($config);
 
         $this->chooseExtensionType($config);
 
@@ -86,10 +90,15 @@ class Extension extends Command
 
             $config['extensionType'] = $this->choice(
 
-                'Building a configuration template?',
-                [0 => 'Build a configuration template', 1 => 'Build an extension']
+                // @todo figure out why this is not working
+                'Building a configuration template? [0/1]',
+                ['0' => 'Build a configuration template', '1' => 'Build an extension']
 
             );
+
+            if ($config['extensionType'] == 0) {
+                $this->call('build:configurationtemplate', ['config' => $config] );
+            }
         }
     }
 
@@ -101,11 +110,13 @@ class Extension extends Command
     public function confirmController($config)
     {
         if ($this->confirm('Do you need a controller?')) {
-
             $this->call('build:controller', ['config' => $config]);
         }
     }
     
+    /**
+     * @param array $config
+     */
     public function confirmModel($config)
     {
         if ($this->confirm('Do you need a model?')) {

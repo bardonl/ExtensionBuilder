@@ -2,26 +2,26 @@ page = PAGE
 page {
 
 	# Favourites icon
-		shortcutIcon = EXT:default_template/Resources/Public/Images/favicon.ico
+		shortcutIcon = EXT:ExtensionName/Resources/Public/Images/favicon.ico
 
 		headerData.100 = TEXT
 		headerData.100 {
 			value (
-				<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/typo3conf/ext/default_template/Resources/Public/Images/favicon-144x144.png" />
-				<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/typo3conf/ext/default_template/Resources/Public/Images/favicon-152x152.png" />
-				<link rel="icon" type="image/png" href="/typo3conf/ext/default_template/Resources/Public/Images/favicon-32x32.png" sizes="32x32" />
+				<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/typo3conf/ext/ExtensionName/Resources/Public/Images/favicon-144x144.png" />
+				<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/typo3conf/ext/ExtensionName/Resources/Public/Images/favicon-152x152.png" />
+				<link rel="icon" type="image/png" href="/typo3conf/ext/ExtensionName/Resources/Public/Images/favicon-32x32.png" sizes="32x32" />
 			)
 		}
 
 		meta {
 			viewport = width=device-width, initial-scale=1
-			language = {$default_template.languages.nl.abbr}
+			language = {$ExtensionName.languages.nl.abbr}
 			language.httpEquivalent = 1
-			language-id = {$default_template.languages.nl.uid}
+			language-id = {$ExtensionName.languages.nl.uid}
 		}
 
 	# Favourites icon
-	# shortcutIcon = EXT:default_template/Resources/Public/Images/Favicon/favicon.ico
+	# shortcutIcon = EXT:ExtensionName/Resources/Public/Images/Favicon/favicon.ico
 
 	10 = FLUIDTEMPLATE
 	10 {
@@ -38,15 +38,15 @@ page {
 		}
 
 		layoutRootPaths {
-			10 = EXT:default_template/Resources/Private/Layouts
+			10 = EXT:ExtensionName/Resources/Private/Layouts
 		}
 
 		partialRootPaths {
-			10 = EXT:default_template/Resources/Private/Partials
+			10 = EXT:ExtensionName/Resources/Private/Partials
 		}
 
 		templateRootPaths {
-			10 = EXT:default_template/Resources/Private/Templates/Page
+			10 = EXT:ExtensionName/Resources/Private/Templates/Page
 		}
 
 		templateName.cObject = CASE
@@ -61,7 +61,7 @@ page {
 			default.value = Unknown
 		}
 
-		settings < default_template
+		settings < ExtensionName
 	}
 
 	# CSS includes
