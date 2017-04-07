@@ -25,7 +25,7 @@ class ConfigurationTemplate extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'This command is called when there is asked for a Configuration Template';
 
     /**
      * Create a new command instance.
