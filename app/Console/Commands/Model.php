@@ -73,8 +73,10 @@ class Model extends Command
      */
     protected function getPath($config)
     {
-        $paths[] = $config['extensionKey'] . '/Classes/Domain/Model/';
-        $paths[] = $config['extensionKey'] . '/Configuration/TCA/';
+        $paths[] = [
+            $config['extensionKey'] . '/Classes/Domain/Model/',
+            $config['extensionKey'] . '/Configuration/TCA/'
+        ];
     
         foreach ($paths as $path) {
             if (!$this->dependencyInjectionManager()->getFileSystem()->isDirectory(realpath('../') . '/' . $path)) {

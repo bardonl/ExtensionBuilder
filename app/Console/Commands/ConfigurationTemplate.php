@@ -70,14 +70,16 @@ class ConfigurationTemplate extends Command
     {
         
         // @todo maybe think of a more efficient way
-        $paths[] = $config['extensionKey'] . '/Configuration/BackendLayout/';
-        $paths[] = $config['extensionKey'] . '/Configuration/TypoScript/Base/';
-        $paths[] = $config['extensionKey'] . '/Resources/Private/Layouts/';
-        $paths[] = $config['extensionKey'] . '/Resources/Public/';
-        $paths[] = $config['extensionKey'] . '/Resources/Public/JavaScripts/';
-        $paths[] = $config['extensionKey'] . '/Resources/Public/Styles/';
-        $paths[] = $config['extensionKey'] . '/Resources/Public/Images/';
-    
+        $paths[] = [
+            $config['extensionKey'] . '/Configuration/BackendLayout/',
+            $config['extensionKey'] . '/Configuration/TypoScript/Base/',
+            $config['extensionKey'] . '/Resources/Private/Layouts/',
+            $config['extensionKey'] . '/Resources/Public/',
+            $config['extensionKey'] . '/Resources/Public/JavaScripts/',
+            $config['extensionKey'] . '/Resources/Public/Styles/',
+            $config['extensionKey'] . '/Resources/Public/Images/'
+        ];
+
         foreach ($paths as $path) {
             if (!$this->dependencyInjectionManager()->getFileSystem()->isDirectory(realpath('../') . '/' . $path)) {
                 $this->dependencyInjectionManager()->getFileGeneratorService()->buildFolderStructure($path);

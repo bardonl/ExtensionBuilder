@@ -72,13 +72,14 @@ class Controller extends Command
      */
     protected function getPath($config)
     {
-        $paths[] = $config['extensionKey'] . '/Classes/Controller/';
+        $paths[] = [
+            $config['extensionKey'] . '/Classes/Controller/',
+            $config['extensionKey'] . '/Resources/Private/Language'
+        ];
         
         foreach ($config['keys'] as $key) {
             $paths[] = $config['extensionKey'] . '/Resources/Private/Templates/' . str_replace('Controller', '', $key) . '/';
         }
-        
-        $paths[] = $config['extensionKey'] . '/Resources/Private/Language';
 
         foreach ($paths as $path) {
             if (!$this->dependencyInjectionManager()->getFileSystem()->isDirectory(realpath('../') . '/' . $path)) {
