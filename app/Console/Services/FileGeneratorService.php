@@ -28,15 +28,19 @@ class FileGeneratorService
     public function buildRoot($config)
     {
 
-        $defaultFiles = [
-            'ext_emconf.php', 'ext_localconf.php', 'ext_tables.php'
+        $config['keys'] = [
+            'ext_emconf.php',
+            'ext_localconf.php',
+            'ext_tables.php'
         ];
 
-        $this->dependencyInjectionManager()->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['extensionKey'] , 755, true);
+        $config['path'] = $config['extensionKey'] . '/';
 
-        foreach ($defaultFiles as $defaultFile) {
-            if (! $this->dependencyInjectionManager()->getFileSystem()->isFile(realpath('../') . '/' . $config['extensionKey'] . '/' . $defaultFile)) {
-                $this->dependencyInjectionManager()->getTemplateCopyService()->copyRootTemplates($config, $defaultFile);
+        $this->dependencyInjectionManager()->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['path'] , 755, true);
+
+        foreach ($config['keys'] as $key) {
+            if (! $this->dependencyInjectionManager()->getFileSystem()->isFile(realpath('../') . '/' . $config['path'] . '/' . $key)) {
+                $this->dependencyInjectionManager()->getTemplateCopyService()->copyRootTemplates($key, $config);
             }
         }
     }

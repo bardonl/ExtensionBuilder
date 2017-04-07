@@ -45,9 +45,7 @@ class Model extends Command
     
         if ($this->argument('config')) {
         
-            foreach( $this->argument('config') as $key => $value) {
-                $config[$key] = $value;
-            }
+            $config = $this->argument('config');
         
         } else {
         

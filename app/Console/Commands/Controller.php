@@ -42,10 +42,8 @@ class Controller extends Command
     public function handle()
     {
         if ($this->argument('config')) {
-
-            foreach ( $this->argument('config') as $key => $value) {
-                $config[$key] = $value;
-            }
+    
+            $config = $this->argument('config');
 
         } else {
             
@@ -56,7 +54,7 @@ class Controller extends Command
         $config['type'] = 'Controller';
 
         if (array_key_exists('extensionKey', $config)) {
-    
+
             $config['path'] = $this->getPath($config);
             $this->info($this->dependencyInjectionManager()->getBuildFileFactory()->handle($config, true));
         } else {
