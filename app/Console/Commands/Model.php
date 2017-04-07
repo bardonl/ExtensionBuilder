@@ -59,12 +59,12 @@ class Model extends Command
 
         if (array_key_exists('extensionKey', $config)) {
 
-            $config['path'] = $this->getExtensionPath($config);
+            $config['path'] = $this->getPath($config);
             $this->info($this->dependencyInjectionManager()->getBuildFileFactory()->handle($config, true));
         } else {
 
             $config['extensionKey'] = $this->ask('Which extension needs the new model(s)?');
-            $config['path'] = $this->getExtensionPath($config);
+            $config['path'] = $this->getPath($config);
             $this->info($this->dependencyInjectionManager()->getBuildFileFactory()->handle($config, false));
         }
     }
@@ -73,7 +73,7 @@ class Model extends Command
      * @param array $config
      * @return array $paths
      */
-    protected function getExtensionPath($config)
+    protected function getPath($config)
     {
         $paths[] = $config['extensionKey'] . '/Classes/Domain/Model/';
         $paths[] = $config['extensionKey'] . '/Configuration/TCA/';
