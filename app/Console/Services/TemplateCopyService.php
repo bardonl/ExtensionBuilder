@@ -112,6 +112,10 @@ class TemplateCopyService
         );
     }
 
+    /**
+     * @param string $key
+     * @param array $config
+     */
     public function copyExtTable($key, $config)
     {
         if ($this->dependencyInjectionManager()->getFileSystem()->exists($config['rootDirectory'] . '/' . 'ext_tables.sql')) {
