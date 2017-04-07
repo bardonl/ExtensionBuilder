@@ -86,20 +86,9 @@ class Extension extends Command
      */
     public function chooseExtensionType($config)
     {
-        if (empty($config['extensionType'])) {
-
-            $config['extensionType'] = $this->choice(
-
-                // @todo figure out why this is not working
-                'Building a configuration template? [0/1]',
-                ['0' => 'Build a configuration template', '1' => 'Build an extension']
-
-            );
-
-            if ($config['extensionType'] == 0) {
-                $this->call('build:configurationtemplate', ['config' => $config] );
+            if ($this->confirm('Configuration Template?')) {
+                $this->call('build:configurationtemplate', ['config' => $config]);
             }
-        }
     }
 
     /**
