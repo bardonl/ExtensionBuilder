@@ -70,28 +70,7 @@ class TemplateCopyService
                 ]
             );
 
-            if ($this->dependencyInjectionManager()->getFileSystem()->exists($config['rootDirectory'] . '/' . 'ext_tables.sql')) {
-
-                // @todo copy content of ext_tables.sql for each model in existing file
-
-            } else {
-
-                $this->dependencyInjectionManager()->getFileSystem()->copy(
-                    TEMPLATE_DIRECTORY . '/ext_tables.sql',
-                    $config['rootDirectory'] . '/' . 'ext_tables.sql'
-                );
-
-                // @todo copy existing content within the file for each model
-
-                $this->dependencyInjectionManager()->getFileReplaceUtility()->findAndReplace(
-                    $config['rootDirectory'] . '/' . 'ext_tables.sql',
-                    [
-                        'TABLE_NAME' => 'tx_' . strtolower($config['extensionKey']) . '_domain_model_' . strtolower($key)
-                    ]
-                );
-
-            }
-
+            $this->copyExtTable($key, $config);
         }
         
     }
@@ -118,7 +97,8 @@ class TemplateCopyService
      * @param string $key
      * @param array $config
      */
-    public function copyTSTemplates($key, $config){
+    public function copyTSTemplates($key, $config)
+    {
         $this->dependencyInjectionManager()->getFileSystem()->copy(
             TEMPLATE_DIRECTORY . '/' . $key,
             realpath('../') . '/' . $config['path'] . $key
@@ -130,6 +110,36 @@ class TemplateCopyService
                 'ExtensionName' => $config['extensionKey']
             ]
         );
+    }
+
+    public function copyExtTable($key, $config)
+    {
+        if ($this->dependencyInjectionManager()->getFileSystem()->exists($config['rootDirectory'] . '/' . 'ext_tables.sql')) {
+
+            $ext_tablesContent = $this->dependencyInjectionManager()->getFileSystem()->get(TEMPLATE_DIRECTORY . '/ext_tables.sql');
+            $this->dependencyInjectionManager()->getFileSystem()->append($config['rootDirectory'] . '/' . 'ext_tables.sql', $ext_tablesContent);
+            $this->dependencyInjectionManager()->getFileReplaceUtility()->findAndReplace(
+                $config['rootDirectory'] . '/' . 'ext_tables.sql',
+                [
+                    'TABLE_NAME' => 'tx_' . strtolower($config['extensionKey']) . '_domain_model_' . strtolower($key)
+                ]
+            );
+
+        } else {
+
+            $this->dependencyInjectionManager()->getFileSystem()->copy(
+                TEMPLATE_DIRECTORY . '/ext_tables.sql',
+                $config['rootDirectory'] . '/' . 'ext_tables.sql'
+            );
+
+            $this->dependencyInjectionManager()->getFileReplaceUtility()->findAndReplace(
+                $config['rootDirectory'] . '/' . 'ext_tables.sql',
+                [
+                    'TABLE_NAME' => 'tx_' . strtolower($config['extensionKey']) . '_domain_model_' . strtolower($key)
+                ]
+            );
+
+        }
     }
 
 }
