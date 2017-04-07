@@ -13,6 +13,7 @@ use Illuminate\Console\Command;
 class ConfigurationTemplate extends Command
 {
     use DependencyInjectionManagerTrait;
+    
     /**
      * The name and signature of the console command.
      *
