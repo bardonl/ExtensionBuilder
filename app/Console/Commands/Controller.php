@@ -42,11 +42,13 @@ class Controller extends Command
     public function handle()
     {
         if ($this->argument('config')) {
-    
-            $config = $this->argument('config');
-
+        
+            foreach ($this->argument('config') as $key => $value) {
+                $config[$key] = $value;
+            }
+        
         } else {
-            
+        
             $config = [];
         }
 

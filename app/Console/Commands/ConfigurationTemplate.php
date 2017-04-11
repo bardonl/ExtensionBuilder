@@ -44,12 +44,17 @@ class ConfigurationTemplate extends Command
     {
         if ($this->argument('config')) {
 
-            $config = $this->argument('config');
+            foreach ($this->argument('config') as $key => $value) {
+                $config[$key] = $value;
+            }
 
         } else {
 
             $config = [];
         }
+
+        var_dump($config);
+        die;
 
         $this->getPath($config);
         
