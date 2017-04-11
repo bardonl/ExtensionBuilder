@@ -74,6 +74,8 @@ class BuildControllerFactory
                     'find2' => 'replacement2'
                 ]
             );
+        
+        return '';
 
     }
 

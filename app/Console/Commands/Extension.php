@@ -1,16 +1,18 @@
 <?php
 namespace App\Console\Commands;
 
+use App\Console\Traits\DependencyInjectionManagerTrait;
 use Illuminate\Console\Command;
-use App\Console\Services\FileGeneratorService;
 
 /**
  * Class Extension
+ *
  * @package App\Console\Commands
  */
 class Extension extends Command
 {
-    
+    use DependencyInjectionManagerTrait;
+
     /**
      * The name and signature of the console command.
      *
@@ -24,13 +26,6 @@ class Extension extends Command
      * @var string
      */
     protected $description = 'The main command to run the extension builder';
-
-    /**
-     * The file generator
-     *
-     * @var FileGeneratorService
-     */
-    protected $fileGenerator;
 
     /**
      * Create a new command instance.
@@ -47,44 +42,70 @@ class Extension extends Command
      */
     public function handle()
     {
-        $extensionKey = strtolower($this->argument('extensionKey'));
+        $config = [
+            'extensionKey'=> $this->argument('extensionKey'),
+            'rootDirectory' => ROOT_DIRECTORY . '/' . $this->argument('extensionKey'),
+        ];
 
-        if (!$this->confirm('You named the extension: ' . $extensionKey . ' Is that correct?')) {
+        $this->confirmExtensionKey($config);
 
-            $extensionKey = $this->ask('Type new extension key:');
-            $this->call('build:extension', $extensionKey);
+        $this->dependencyInjectionManager()->getFileGeneratorService()->buildRoot($config);
 
-        }
+        $this->chooseExtensionType($config);
 
-        $config = $this->choice(
-            
-            'Building a configuration template? [0/1]',
-            ['Build a configuration template', 'Build a extension']
-            
-        );
-        
-        if ($this->confirm("Do you need a controller?")) {
-            
-            $controller = $this->ask('Type the name(s) of the controller(s), if you want to use more than one controller separate them using , without a space.');
-            $this->call('build:controller', ['controller' => $controller, 'extensionKey' => $extensionKey]);
-            
-        }
-        
-        $this->getFileGeneratorService()->createRootDirectory($config, $extensionKey);
-        
+        $this->confirmController($config);
+
+        $this->confirmModel($config);
+
     }
 
     /**
-     * @return FileGeneratorService
+     * Call Command build:extension with new key if extensionKey is not correct
+     *
+     * @param array $config
      */
-    protected function getFileGeneratorService()
+    public function confirmExtensionKey($config)
     {
-        if (($this->fileGenerator instanceof FileGeneratorService) === false) {
-            
-            $this->fileGenerator = new FileGeneratorService();
-            
-        }
+        if (!$this->confirm('You named the extension: ' . $config['extensionKey'] . ' Is that correct?')) {
 
-        return $this->fileGenerator;
+            $config['extensionKey'] = $this->ask('Type new extension key:');
+
+            $this->call('build:extension', ['extensionKey' => $config['extensionKey']]);
+            die;
+        }
+    }
+
+    /**
+     * @param array $config
+     */
+    public function chooseExtensionType($config)
+    {
+            if ($this->confirm('Configuration Template?')) {
+                $this->call('build:configurationtemplate', ['config' => $config]);
+            }
+    }
+
+    /**
+     * Call the build:controller if controllers are needed
+     *
+     * @param array $config
+     */
+    public function confirmController($config)
+    {
+        if ($this->confirm('Do you need a controller?')) {
+            $this->call('build:controller', ['config' => $config]);
+        }
+    }
+
+    /**
+     * @param array $config
+     */
+    public function confirmModel($config)
+    {
+        if ($this->confirm('Do you need a model?')) {
+
+            $this->call('build:model', ['config' => $config]);
+
+        }
     }
 }

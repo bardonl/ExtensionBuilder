@@ -15,7 +15,7 @@ config {
 	xmlprologue = none
 
     # Nice generated URLs
-	tx_realurl_enable = {$default_template.realurl.enable}
+	tx_realurl_enable = {$extension_name.realurl.enable}
 	# Link & URL handling
 	absRefPrefix = /
 	prefixLocalAnchors = all
@@ -33,10 +33,10 @@ config {
 	# Language & locale handling
 	sys_language_overlay = hideNonTranslated
 	sys_language_mode = content_fallback
-	sys_language_uid = {$default_template.languages.nl.uid}
-	language = {$default_template.languages.nl.abbr}
-	locale_all = {$default_template.languages.nl.code}
-	htmlTag_langKey = {$default_template.languages.nl.abbr}
+	sys_language_uid = {$extension_name.languages.nl.uid}
+	language = {$extension_name.languages.nl.abbr}
+	locale_all = {$extension_name.languages.nl.code}
+	htmlTag_langKey = {$extension_name.languages.nl.abbr}
 
 	# Disable CSS compression
 	compressCss = 0

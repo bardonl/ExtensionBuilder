@@ -1,42 +1,48 @@
 <?php
 namespace App\Console\Services;
 
-use Illuminate\Filesystem\Filesystem;
+use App\Console\Traits\DependencyInjectionManagerTrait;
 
 /**
  * Class FileGeneratorService
+ * 
  * @package ExtensionBuilder\Console\Services
  */
 class FileGeneratorService
 {
-    /**
-     * @var Filesystem
-     */
-    protected $fileSystem;
+    use DependencyInjectionManagerTrait;
 
     /**
-     * @param int $type
-     * @param string $extensionKey
+     * @param string $path
      */
-    public function createRootDirectory($type, $extensionKey)
+    public function buildFolderStructure($path)
     {
-        if ($type === 0) {
-            $extensionKey = ucfirst(explode('_', $extensionKey)[0]);
-        }
 
-        $this->getFileSystem()->makeDirectory(realpath('../') . '/' . $extensionKey);
+        $this->dependencyInjectionManager()->getFileSystem()->makeDirectory(realpath('../') . '/' . $path, 755, true);
+
     }
 
     /**
-     * @return Filesystem
+     * @param array $config
      */
-    public function getFileSystem()
+    public function buildRoot($config)
     {
-        if (($this->fileSystem instanceof Filesystem) === false) {
-            $this->fileSystem = new Filesystem();
-        }
 
-        return $this->fileSystem;
+        $config['keys'] = [
+            'ext_emconf.php',
+            'ext_localconf.php',
+            'ext_tables.php'
+        ];
+
+        $config['path'] = $config['extensionKey'] . '/';
+
+        $this->dependencyInjectionManager()->getFileSystem()->makeDirectory(realpath('../') . '/' . $config['path'] , 755, true);
+
+        foreach ($config['keys'] as $key) {
+            if (! $this->dependencyInjectionManager()->getFileSystem()->isFile(realpath('../') . '/' . $config['path'] . '/' . $key)) {
+                $this->dependencyInjectionManager()->getTemplateCopyService()->copyRootTemplates($key, $config);
+            }
+        }
     }
 
 }

@@ -2,34 +2,30 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Console\Factory\BuildControllerFactory;
+use App\Console\Traits\DependencyInjectionManagerTrait;
 
 /**
  * Class Controller
+ * 
  * @package App\Console\Commands
  */
 class Controller extends Command
 {
+    use DependencyInjectionManagerTrait;
+    
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'build:controller {controller} {extensionKey?}';
+    protected $signature = 'build:controller {config?*}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command to build a controller, if more is needed separate them with a comma without a space "FooController,BarController"';
-
-    /**
-     * The controller factory
-     *
-     * @var BuildControllerFactory
-     */
-    protected $controllerFactory;
+    protected $description = 'Command to build a controller, if more is needed separate them with a comma and a space "FooController, BarController"';
 
     /**
      * Create a new command instance.
@@ -45,34 +41,54 @@ class Controller extends Command
      */
     public function handle()
     {
-        $controller = explode(', ',$this->argument('controller'));
-
-        $extensionKey = $this->argument('extensionKey');
-
-        if ($extensionKey[0] != NULL) {
-
-            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, $new_ext = true));
-
+        if ($this->argument('config')) {
+        
+            foreach ($this->argument('config') as $key => $value) {
+                $config[$key] = $value;
+            }
+        
         } else {
+        
+            $config = [];
+        }
 
-            $extensionKey = $this->ask('Which extension needs the new controller(s)?');
-            $this->info($this->getBuildControllerFactory()->handle($extensionKey, $controller, $new_ext = false));
+        $config['keys'] = array_map('trim', explode(',' , $this->ask('Type the name(s) of the controller(s), if you want to use more than one controller separate them using a coma and a space.')));
+        $config['type'] = 'Controller';
 
+        if (array_key_exists('extensionKey', $config)) {
+
+            $config['path'] = $this->getPath($config);
+            $this->info($this->dependencyInjectionManager()->getBuildFileFactory()->handle($config, true));
+        } else {
+            
+            $config['extensionKey'] = $this->ask('Which extension needs the new controller(s)?');
+            $config['path'] = $this->getPath($config);
+            $this->info($this->dependencyInjectionManager()->getBuildFileFactory()->handle($config, false));
         }
 
     }
-
+    
     /**
-     * @return BuildControllerFactory
+     * @param array $config
+     * @return array $paths
      */
-    protected function getBuildControllerFactory()
+    protected function getPath($config)
     {
-        if (($this->controllerFactory instanceof BuildControllerFactory) === false) {
-
-            $this->controllerFactory = new BuildControllerFactory();
-
+        $paths[] = [
+            $config['extensionKey'] . '/Classes/Controller/',
+            $config['extensionKey'] . '/Resources/Private/Language'
+        ];
+        
+        foreach ($config['keys'] as $key) {
+            $paths[] = $config['extensionKey'] . '/Resources/Private/Templates/' . str_replace('Controller', '', $key) . '/';
         }
 
-        return $this->controllerFactory;
+        foreach ($paths as $path) {
+            if (!$this->dependencyInjectionManager()->getFileSystem()->isDirectory(realpath('../') . '/' . $path)) {
+                $this->dependencyInjectionManager()->getFileGeneratorService()->buildFolderStructure($path);
+            }
+        }
+
+        return $paths;
     }
 }

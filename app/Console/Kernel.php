@@ -3,9 +3,11 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * Class Kernel
+ * 
  * @package App\Console
  */
 class Kernel extends ConsoleKernel
@@ -18,7 +20,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\Extension::class,
         Commands\Model::class,
-        Commands\Controller::class
+        Commands\Controller::class,
+        Commands\ConfigurationTemplate::class
     ];
 
     /**
@@ -41,6 +44,7 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         require base_path('routes/console.php');
-        define('ROOT_DIRECTORY', realpath(__DIR__ . "/../../../"));
+        define('ROOT_DIRECTORY', dirname(realpath('./')));
+        define('TEMPLATE_DIRECTORY', dirname(realpath(__DIR__)). '/Console/Templates');
     }
 }
