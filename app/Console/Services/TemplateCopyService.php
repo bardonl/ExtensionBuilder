@@ -54,7 +54,7 @@ class TemplateCopyService
             ]
         );
 
-        if ($config['type'] == 'Model') {
+        if ($config['type'] === 'Model') {
             
             $this->dependencyInjectionManager()->getFileSystem()->copy(
                 TEMPLATE_DIRECTORY . '/DefaultTCA.php',
@@ -87,7 +87,7 @@ class TemplateCopyService
         
         $name = 'ExtensionName';
 
-        if ($this->dependencyInjectionManager()->getFileSystem()->extension(realpath('../') . '/' . $config['path'] . $key) == 'ts'){
+        if ($this->dependencyInjectionManager()->getFileSystem()->extension(realpath('../') . '/' . $config['path'] . $key) == 'ts') {
             $name = 'extension_name';
             $extensionKey = array_filter(array_map('strtolower',preg_split('/(?=[A-Z])/',$config['extensionKey'])));
             $config['extensionKey'] = implode('_', $extensionKey);

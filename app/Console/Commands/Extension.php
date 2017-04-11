@@ -44,13 +44,7 @@ class Extension extends Command
     {
         $config = [
             'extensionKey'=> $this->argument('extensionKey'),
-            'type' => '',
-            'path' => '',
-            'extensionType' => '',
             'rootDirectory' => ROOT_DIRECTORY . '/' . $this->argument('extensionKey'),
-            'keys' => [
-                ''
-            ]
         ];
 
         $this->confirmExtensionKey($config);

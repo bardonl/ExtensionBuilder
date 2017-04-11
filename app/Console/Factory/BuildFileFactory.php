@@ -40,8 +40,9 @@ class BuildFileFactory
     }
     
     /**
-     * @param array $config
+     * @param $config
      * @return bool
+     * @throws \Exception
      */
     function checkFolder($config) {
         if (!$this->dependencyInjectionManager()->getFileSystem()->isDirectory( $config['rootDirectory'])) {

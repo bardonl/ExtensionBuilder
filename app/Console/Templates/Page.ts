@@ -27,7 +27,7 @@ page {
 	10 {
 		extbase {
 			pluginName = PageRenderer
-			controllerextension_name = DefaultTemplate
+			controllerExtensionName = DefaultTemplate
 			controllerVendorName = Redkiwi
 			controllerName = Page
 			controllerActionName = render
